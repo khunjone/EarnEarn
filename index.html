@@ -29,7 +29,20 @@ input{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:
 :focus-visible{outline:3px solid #f5a623;outline-offset:2px}
 .err{color:var(--err);min-height:1.5em;margin:8px 0 0}
 .mut{color:var(--mut)}
-.hide{display:none}
+select,textarea{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+label{display:block;color:var(--mut);font-size:.92rem;margin-bottom:2px}
+label.chk{display:flex;gap:10px;align-items:center;color:var(--ink);font-size:1rem;min-height:44px;margin:0}
+label.chk input{width:22px;height:22px;margin:0;flex:none}
+.seg{display:flex;gap:6px;margin:12px 0}
+.seg button{flex:1;min-height:44px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;font:inherit;font-weight:600}
+.seg button.on{background:var(--blue);color:#fff}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.acts{display:flex;gap:6px;flex:none}
+.sm{min-height:40px;padding:0 14px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;font:inherit}
+.sm.del{border-color:var(--err);color:var(--err)}
+.note{min-height:1.5em;margin:0 0 8px;color:#1b6e3a;font-weight:600}.note.bad{color:var(--err)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hide{display:none!important}
 </style>
 </head>
 <body>
@@ -69,6 +82,7 @@ input{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:
       <p id="who"></p>
       <button id="logout" class="btn alt">ออกจากระบบ</button>
     </div>
+    <div id="adminTools" class="hide"></div>
   </section>
 </main>
 
@@ -76,6 +90,7 @@ input{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
+<script src="admin.js"></script>
 <script>
 const db = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
 const $ = s => document.querySelector(s);
@@ -116,6 +131,7 @@ async function refreshAuth() {
   $('#who').textContent = !session ? '' : isAdmin
     ? 'เข้าสู่ระบบในชื่อ ' + session.user.email
     : 'บัญชีนี้ยังไม่ได้รับสิทธิ์ผู้จัด ให้เพิ่มรหัสบัญชีในตาราง admins';
+  initAdmin(isAdmin);
 }
 
 $('#login').onclick = async () => {
