@@ -14,7 +14,7 @@ function standingsTable(rows) {
 }
 
 async function renderPublic() {
-  const sc = document.getElementById('schedule'), rs = document.getElementById('results');
+  const sc = document.getElementById('schedule'), rs = document.getElementById('results'), br = document.getElementById('bracket');
   try {
     const [sports, teams, matches, dr] = (await Promise.all([
       db.from('sports').select('*').order('name').order('age_group'),
@@ -24,7 +24,7 @@ async function renderPublic() {
     const active = sports.filter(s => matches.some(m => m.sport_id === s.id));
     if (!active.length) {
       const empty = t => h('div', {class: 'card'}, h('h2', {}, t), h('p', {class: 'mut'}, 'ยังไม่มีข้อมูล ส่วนนี้จะเปิดใช้เมื่อสร้างตารางแข่งขันแล้ว'));
-      sc.replaceChildren(empty('ตารางแข่ง')); rs.replaceChildren(empty('ผล-คะแนน'));
+      sc.replaceChildren(empty('ตารางแข่ง')); rs.replaceChildren(empty('ผล-คะแนน')); br.replaceChildren(empty('สายน็อกเอาต์'));
       return;
     }
     if (!active.some(s => s.id === pubSport)) pubSport = active[0].id;
@@ -34,19 +34,39 @@ async function renderPublic() {
     const pos = Object.fromEntries(dr.map(d => [d.team_id, d.position]));
     const picker = () => h('div', {class: 'card'}, lab('รายการแข่ง', h('select', {onchange: e => { pubSport = e.target.value; renderPublic(); }},
       ...active.map(s => opt(s.id, sportName(s), pubSport)))));
-    const side = (id, sc2) => h('div', {class: 'sc'}, h('span', {}, tn[id] ?? '—'), h('b', {}, sc2));
-    const card = m => h('div', {class: 'm'}, side(m.team_a, m.score_a), side(m.team_b, m.score_b),
+    const side = (id, lb, sc2) => h('div', {class: 'sc'}, h('span', {}, tn[id] ?? lb ?? '—'), h('b', {}, sc2));
+    const card = m => h('div', {class: 'm'}, side(m.team_a, m.label_a, m.score_a), side(m.team_b, m.label_b, m.score_b),
       h('div', {class: 'mut'}, m.status === 'finished' ? 'จบการแข่งขัน' : 'ยังไม่แข่ง'));
-    const rounds = [...new Set(ms.map(m => m.round_no))];
+    const ko = cur.system === 'knockout';
+    const rounds = [...new Set(ms.map(m => (ko ? m.round_label : m.round_no)))];
+    const inRound = (m, r) => (ko ? m.round_label : m.round_no) === r;
     sc.replaceChildren(picker(), h('div', {class: 'card'}, h('h2', {}, sportName(cur)), h('p', {class: 'mut'}, SYS[cur.system]),
       ...rounds.flatMap(r => {
-        const rest = ts.filter(t => !ms.some(m => m.round_no === r && (m.team_a === t.id || m.team_b === t.id)));
-        return [h('h3', {}, `รอบที่ ${r}`), ...ms.filter(m => m.round_no === r).map(card),
-          rest.length ? h('p', {class: 'mut'}, 'พัก: ' + rest.map(t => t.school).join(', ')) : null];
+        const rest = ts.filter(t => !ms.some(m => inRound(m, r) && (m.team_a === t.id || m.team_b === t.id)));
+        return [h('h3', {}, ko ? r : `รอบที่ ${r}`), ...ms.filter(m => inRound(m, r)).map(card),
+          !ko && rest.length ? h('p', {class: 'mut'}, 'พัก: ' + rest.map(t => t.school).join(', ')) : null];
       })));
     rs.replaceChildren(picker(), h('div', {class: 'card'}, h('h2', {}, 'ตารางคะแนน ' + sportName(cur)),
-      cur.system === 'round_robin' ? standingsTable(standings(ts, ms, cur.tiebreak, pos)) : h('p', {class: 'mut'}, 'ระบบนี้ยังไม่มีตารางคะแนน')));
+      cur.system === 'round_robin' ? standingsTable(standings(ts, ms, cur.tiebreak, pos)) : h('p', {class: 'mut'}, ko ? 'ระบบแพ้คัดออกไม่มีตารางคะแนน ดูผลที่แท็บ "สายน็อกเอาต์"' : 'ระบบนี้ยังไม่มีตารางคะแนน')));
+    br.replaceChildren(picker(), h('div', {class: 'card'}, h('h2', {}, 'สายน็อกเอาต์ ' + sportName(cur)),
+      ko ? bracketView(ms, tn) : h('p', {class: 'mut'}, 'รายการนี้ไม่มีรอบแพ้คัดออก')));
   } catch (e) {
     sc.replaceChildren(h('p', {class: 'err'}, 'โหลดข้อมูลไม่สำเร็จ: ' + e.message));
   }
+}
+
+// ผังสายแพ้คัดออก: คอลัมน์ตามรอบ เลื่อนดูแนวนอนได้
+function bracketView(ms, tn) {
+  const main = ms.filter(m => m.round_label !== 'ชิงที่ 3'), third = ms.find(m => m.round_label === 'ชิงที่ 3');
+  const rounds = [...new Set(main.map(m => m.round_no))];
+  const box = m => {
+    const side = (id, lb, s) => h('div', {class: id && m.winner === id ? 'w' : ''}, h('span', {}, tn[id] ?? lb ?? '—'), h('span', {}, s ?? ''));
+    return h('div', {class: 'bm'}, h('small', {class: 'mut'}, 'นัด ' + m.code), side(m.team_a, m.label_a, m.score_a), side(m.team_b, m.label_b, m.score_b));
+  };
+  const fin = main.find(m => m.round_label === 'ชิงชนะเลิศ');
+  return h('div', {},
+    fin && fin.winner ? h('p', {}, h('b', {}, 'ชนะเลิศ: ' + tn[fin.winner])) : null,
+    h('div', {class: 'br'}, ...rounds.map(r => h('div', {class: 'col'}, h('h3', {}, main.find(m => m.round_no === r).round_label),
+      ...main.filter(m => m.round_no === r).map(box)))),
+    third ? h('div', {}, h('h3', {}, 'ชิงที่ 3'), box(third)) : null);
 }
