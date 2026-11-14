@@ -33,12 +33,12 @@ function initAdmin(isAdmin) {
 
 async function render() {
   const body = h('div');
-  const tabs = [['settings', 'ตั้งค่า'], ['sports', 'รายการแข่ง'], ['teams', 'ทีม']];
+  const tabs = [['settings', 'ตั้งค่า'], ['sports', 'รายการแข่ง'], ['teams', 'ทีม'], ['play', 'แข่งขัน']];
   document.getElementById('adminTools').replaceChildren(
     h('div', {class: 'seg'}, ...tabs.map(([k, l]) =>
       h('button', {class: k === tab ? 'on' : '', onclick: () => { tab = k; editing = null; flash(''); render(); }}, l))),
     note, body);
-  try { await {settings: viewSettings, sports: viewSports, teams: viewTeams}[tab](body); }
+  try { await {settings: viewSettings, sports: viewSports, teams: viewTeams, play: viewPlay}[tab](body); }
   catch (e) { flash('โหลดข้อมูลไม่สำเร็จ: ' + e.message, true); }
 }
 
