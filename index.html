@@ -52,6 +52,12 @@ th{color:var(--mut);font-weight:600}
 .sc{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 0}
 .sc input{width:76px;margin:0;text-align:center}
 .sc b{font-size:1.1rem;min-width:24px;text-align:right}
+.br{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px}
+.col{min-width:190px;display:flex;flex-direction:column;justify-content:space-around;gap:12px}
+.col h3{margin:0}
+.bm{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:8px;padding:6px 8px}
+.bm div{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.bm .w{font-weight:700;color:var(--navy)}
 .hide{display:none!important}
 </style>
 </head>
@@ -104,6 +110,7 @@ th{color:var(--mut);font-weight:600}
 <script src="public.js"></script>
 <script src="admin.js"></script>
 <script src="play.js"></script>
+<script src="ko.js"></script>
 <script>
 const db = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
 const $ = s => document.querySelector(s);
