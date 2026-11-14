@@ -11,6 +11,7 @@ async function viewPlay(body) {
     db.from('draw_log').select('seed').eq('sport_id', cur.id).order('created_at', {ascending: false}).limit(1)])).map(must);
   const picker = h('div', {class: 'card'}, lab('รายการแข่ง', h('select', {onchange: ev => { curSport = ev.target.value; flash(''); render(); }},
     ...sports.map(s => opt(s.id, sportName(s), curSport)))));
+  if (cur.system === 'knockout') return viewKnockout(body, picker, cur, teams, matches, dr, log);
   if (cur.system !== 'round_robin')
     return body.append(picker, h('p', {class: 'mut'}, `ระบบ "${SYS[cur.system]}" จะเปิดใช้ในขั้นถัดไป`));
 
