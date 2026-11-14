@@ -42,6 +42,16 @@ label.chk input{width:22px;height:22px;margin:0;flex:none}
 .sm.del{border-color:var(--err);color:var(--err)}
 .note{min-height:1.5em;margin:0 0 8px;color:#1b6e3a;font-weight:600}.note.bad{color:var(--err)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+h3{margin:14px 0 4px;color:var(--navy);font-size:1rem}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:8px 5px;text-align:center;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:600}
+.tl{text-align:left}
+.m{padding:10px 0;border-top:1px solid var(--line)}
+.sc{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 0}
+.sc input{width:76px;margin:0;text-align:center}
+.sc b{font-size:1.1rem;min-width:24px;text-align:right}
 .hide{display:none!important}
 </style>
 </head>
@@ -90,7 +100,10 @@ label.chk input{width:22px;height:22px;margin:0;flex:none}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
+<script src="engine.js"></script>
+<script src="public.js"></script>
 <script src="admin.js"></script>
+<script src="play.js"></script>
 <script>
 const db = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
 const $ = s => document.querySelector(s);
@@ -120,6 +133,7 @@ async function loadHome() {
   $('#nSports').textContent = sp.count ?? 0;
   $('#nTeams').textContent = tm.count ?? 0;
   $('#nMatches').textContent = mt.count ?? 0;
+  if (typeof renderPublic === 'function') renderPublic();
 }
 
 async function refreshAuth() {
