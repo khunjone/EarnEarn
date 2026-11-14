@@ -83,3 +83,41 @@ function standings(teams, matches, tb, pos = {}) {
   };
   return rank(base, tb);
 }
+
+// ---------- แพ้คัดออก ----------
+// ลำดับตำแหน่งมาตรฐาน เช่น 8 ทีม = 1,8,4,5,2,7,3,6 (1 พบ 8, 4 พบ 5, 2 พบ 7, 3 พบ 6)
+function seedOrder(size) {
+  let a = [1];
+  while (a.length < size) { const n = a.length * 2; a = a.flatMap(s => [s, n + 1 - s]); }
+  return a;
+}
+
+// สร้างแถว matches ของสายแพ้คัดออก ids เรียงตามลำดับจับสลาก (ลำดับ 1..N)
+// ทีมลำดับต้น ๆ ได้บายเมื่อจำนวนทีมไม่ครบ 2^k (คู่ที่มีบายไม่สร้างเป็นนัด ทีมเลื่อนเข้ารอบถัดไปเลย)
+function buildKnockout(sportId, ids, third) {
+  const N = ids.length, R = Math.ceil(Math.log2(N)), size = 2 ** R;
+  const order = seedOrder(size), at = s => (s <= N ? ids[s - 1] : null);
+  const rounds = Array.from({length: R}, (_, k) =>
+    Array.from({length: size / 2 ** (k + 1)}, (_, i) => ({id: crypto.randomUUID(), a: null, b: null})));
+  rounds[0].forEach((m, i) => { m.a = at(order[2 * i]); m.b = at(order[2 * i + 1]); m.skip = !m.a || !m.b; });
+  rounds[0].forEach((m, i) => { if (m.skip) rounds[1][i >> 1][i % 2 ? 'b' : 'a'] = m.a || m.b; });
+  let c = 0;
+  rounds.forEach(rd => rd.forEach(m => { if (!m.skip) m.code = String(++c).padStart(2, '0'); }));
+  const name = k => { const t = size / 2 ** k; return t === 2 ? 'ชิงชนะเลิศ' : t === 4 ? 'รองชนะเลิศ' : `รอบ ${t} ทีม`; };
+  const rows = [];
+  rounds.forEach((rd, k) => rd.forEach((m, i) => {
+    if (m.skip) return;
+    const nx = rounds[k + 1]?.[i >> 1];
+    const feed = j => { const f = rounds[k - 1]?.[2 * i + j]; return f && !f.skip ? `ผู้ชนะนัด ${f.code}` : null; };
+    rows.push({id: m.id, sport_id: sportId, code: m.code, stage: 'knockout', round_label: name(k), round_no: k + 1, slot_no: i + 1,
+      team_a: m.a, team_b: m.b, label_a: m.a ? null : feed(0), label_b: m.b ? null : feed(1),
+      next_match: nx ? nx.id : null, next_slot: nx ? (i % 2 ? 'b' : 'a') : null});
+  }));
+  if (third && R >= 2 && rounds[R - 2].every(s => !s.skip)) {
+    const [s1, s2] = rounds[R - 2];
+    rows.push({id: crypto.randomUUID(), sport_id: sportId, code: String(++c).padStart(2, '0'), stage: 'knockout',
+      round_label: 'ชิงที่ 3', round_no: R, slot_no: 2, team_a: null, team_b: null,
+      label_a: `ผู้แพ้นัด ${s1.code}`, label_b: `ผู้แพ้นัด ${s2.code}`, next_match: null, next_slot: null});
+  }
+  return rows;
+}
