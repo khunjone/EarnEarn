@@ -1,171 +1,565 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ระบบจัดการแข่งขันกีฬานักเรียน</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--blue:#1769d1;--navy:#0f3f80;--sky:#eaf3ff;--line:#cfe0f7;--ink:#14304f;--mut:#566f8f;--err:#b3261e}
-*{box-sizing:border-box}
-body{margin:0;font:17px/1.55 Sarabun,sans-serif;color:var(--ink);background:var(--sky);padding-bottom:calc(68px + env(safe-area-inset-bottom))}
-header{position:sticky;top:0;z-index:5;background:var(--blue);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 14px}
-header h1{margin:0;font-size:1.25rem;line-height:1.3}
-header p{margin:2px 0 0;font-size:.9rem;opacity:.9}
-main{max-width:720px;margin:0 auto;padding:16px}
-.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
-.card h2{margin:0 0 8px;font-size:1.05rem;color:var(--navy)}
-.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.counts b{display:block;font-size:1.9rem;color:var(--navy);line-height:1.2}
-.counts span{font-size:.9rem;color:var(--mut)}
-nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;min-height:56px;border:0;border-top:3px solid transparent;background:none;font:inherit;font-size:.8rem;color:var(--mut)}
-nav button.on{color:var(--blue);font-weight:700;border-top-color:var(--blue)}
-input{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:1px solid var(--line);border-radius:8px}
-.btn{width:100%;min-height:48px;border:0;border-radius:8px;background:var(--blue);color:#fff;font:inherit;font-weight:600}
-.btn.alt{background:#fff;color:var(--blue);border:1px solid var(--blue)}
-:focus-visible{outline:3px solid #f5a623;outline-offset:2px}
-.err{color:var(--err);min-height:1.5em;margin:8px 0 0}
-.mut{color:var(--mut)}
-select,textarea{display:block;width:100%;font:inherit;padding:12px;margin:0 0 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
-label{display:block;color:var(--mut);font-size:.92rem;margin-bottom:2px}
-label.chk{display:flex;gap:10px;align-items:center;color:var(--ink);font-size:1rem;min-height:44px;margin:0}
-label.chk input{width:22px;height:22px;margin:0;flex:none}
-.seg{display:flex;gap:6px;margin:12px 0}
-.seg button{flex:1;min-height:44px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;font:inherit;font-weight:600}
-.seg button.on{background:var(--blue);color:#fff}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
-.acts{display:flex;gap:6px;flex:none}
-.sm{min-height:40px;padding:0 14px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;font:inherit}
-.sm.del{border-color:var(--err);color:var(--err)}
-.note{min-height:1.5em;margin:0 0 8px;color:#1b6e3a;font-weight:600}.note.bad{color:var(--err)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-h3{margin:14px 0 4px;color:var(--navy);font-size:1rem}
-.tw{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:.92rem}
-th,td{padding:8px 5px;text-align:center;border-bottom:1px solid var(--line)}
-th{color:var(--mut);font-weight:600}
-.tl{text-align:left}
-.m{padding:10px 0;border-top:1px solid var(--line)}
-.sc{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 0}
-.sc input{width:76px;margin:0;text-align:center}
-.sc b{font-size:1.1rem;min-width:24px;text-align:right}
-.br{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px}
-.col{min-width:190px;display:flex;flex-direction:column;justify-content:space-around;gap:12px}
-.col h3{margin:0}
-.bm{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:8px;padding:6px 8px}
-.bm div{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
-.bm .w{font-weight:700;color:var(--navy)}
-.hide{display:none!important}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Smart After Care - คู่มือดูแลหลังศัลยกรรม</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- LINE LIFF SDK v2 -->
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f1f5f9;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h1, h2, h3, .font-heading {
+      font-family: 'Prompt', sans-serif;
+    }
+    /* ซ่อน Scrollbar สำหรับแถบเลือกวัน */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body>
-<header>
-  <h1 id="title">ระบบจัดการแข่งขันกีฬานักเรียน</h1>
-  <p id="status" class="mut" style="color:#fff">กำลังเชื่อมต่อ…</p>
-</header>
+<body class="text-slate-800 antialiased">
 
-<main>
-  <section id="home">
-    <div class="card">
-      <h2>ภาพรวมการแข่งขัน</h2>
-      <div class="counts">
-        <div><b id="nSports">–</b><span>รายการแข่ง</span></div>
-        <div><b id="nTeams">–</b><span>ทีม</span></div>
-        <div><b id="nMatches">–</b><span>นัดแข่ง</span></div>
+  <!-- Mobile Container -->
+  <div class="max-w-md mx-auto min-h-screen bg-slate-50 shadow-lg pb-24 relative">
+
+    <!-- Header & LINE Profile -->
+    <header class="bg-gradient-to-r from-teal-700 to-teal-600 text-white px-5 pt-6 pb-8 rounded-b-3xl shadow-md">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs uppercase tracking-wider bg-teal-800/60 px-2.5 py-1 rounded-full text-teal-100 font-heading">
+            After Care Assistant
+          </span>
+          <h1 class="text-xl font-bold mt-2">สวัสดีคุณ <span id="userName">คนไข้คนพิเศษ</span></h1>
+          <p class="text-teal-100 text-sm mt-0.5">เลือกหัตถการและวันที่ เพื่อดูวิธีดูแลตัวเอง</p>
+        </div>
+        <img id="userAvatar" src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Profile"
+             class="w-12 h-12 rounded-full border-2 border-white/80 object-cover bg-white shadow-sm" />
       </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="px-4 -mt-4 space-y-5">
+
+      <!-- Step 1: เลือกหัตถการ -->
+      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider font-heading mb-2.5">
+          1. เลือกหัตถการของคุณ
+        </label>
+        <div class="grid grid-cols-3 gap-2" id="procedureSelector">
+          <button onclick="selectProcedure('rhinoplasty')" data-proc="rhinoplasty"
+                  class="proc-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-800 transition">
+            <span class="text-2xl mb-1">👃</span>
+            <span class="text-xs font-heading font-semibold">เสริมจมูก</span>
+          </button>
+          <button onclick="selectProcedure('eyelid')" data-proc="eyelid"
+                  class="proc-btn flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition">
+            <span class="text-2xl mb-1">👁️</span>
+            <span class="text-xs font-heading font-semibold">ตาสองชั้น</span>
+          </button>
+          <button onclick="selectProcedure('breast')" data-proc="breast"
+                  class="proc-btn flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition">
+            <span class="text-2xl mb-1">👙</span>
+            <span class="text-xs font-heading font-semibold">เสริมหน้าอก</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: เลือกช่วงวันหลังผ่าตัด -->
+      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider font-heading mb-2.5">
+          2. ระยะเวลาหลังผ่าตัด
+        </label>
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1" id="daySelector">
+          <button onclick="selectDay('d0_3')" data-day="d0_3"
+                  class="day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-teal-600 text-white shadow-sm transition">
+            Day 0–3 (ช่วงบวมช้ำ)
+          </button>
+          <button onclick="selectDay('d4_7')" data-day="d4_7"
+                  class="day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-slate-100 text-slate-600 transition">
+            Day 4–7 (ยุบบวม/ตัดไหม)
+          </button>
+          <button onclick="selectDay('d8_14')" data-day="d8_14"
+                  class="day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-slate-100 text-slate-600 transition">
+            Day 8–14 (เริ่มเข้าที่)
+          </button>
+          <button onclick="selectDay('d15_plus')" data-day="d15_plus"
+                  class="day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-slate-100 text-slate-600 transition">
+            Day 15+ (ดูแลระยะยาว)
+          </button>
+        </div>
+      </section>
+
+      <!-- Highlight Banner: การประคบ & ไฮไลต์ประจำวัน -->
+      <section id="compressBanner" class="bg-sky-50 border border-sky-200 rounded-2xl p-4 flex items-start space-x-3">
+        <div id="compressIcon" class="text-2xl bg-white p-2 rounded-xl shadow-sm">❄️</div>
+        <div>
+          <h3 id="compressTitle" class="font-heading font-semibold text-sky-900 text-sm">เน้นประคบเย็นรอบบริเวณแผล</h3>
+          <p id="compressDesc" class="text-xs text-sky-700 mt-0.5 leading-relaxed">ประคบครั้งละ 15-20 นาที เว้นระยะ 1 ชม. ห้ามวางเจลทับบนซิลิโคนโดยตรง</p>
+        </div>
+      </section>
+
+      <!-- Interactive Daily Checklist -->
+      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-heading font-semibold text-slate-800 text-base">✅ เช็กลิสต์ดูแลตัวเองวันนี้</h2>
+          <span id="checklistProgress" class="text-xs font-heading font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full">0/0</span>
+        </div>
+        <div id="checklistContainer" class="space-y-2">
+          <!-- Render by JS -->
+        </div>
+      </section>
+
+      <!-- ข้อควรระวัง / ข้อห้าม (Don'ts) -->
+      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="font-heading font-semibold text-rose-700 text-base mb-2.5">🚫 ข้อห้ามในช่วงนี้</h2>
+        <ul id="dontsList" class="space-y-2 text-sm text-slate-700">
+          <!-- Render by JS -->
+        </ul>
+      </section>
+
+      <!-- Traffic Light Symptom Checker -->
+      <section class="space-y-3">
+        <h2 class="font-heading font-semibold text-slate-800 text-base px-1">🚦 เช็กอาการผิดปกติ (3 ระดับ)</h2>
+
+        <!-- โซนสีเขียว: อาการปกติ -->
+        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+          <div class="flex items-center space-x-2 mb-1.5">
+            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+            <h3 class="font-heading font-semibold text-emerald-900 text-sm">อาการปกติ (สบายใจได้ ไม่ต้องกังวล)</h3>
+          </div>
+          <ul id="greenSymptoms" class="text-xs text-emerald-800 space-y-1.5 pl-5 list-disc leading-relaxed">
+            <!-- Render by JS -->
+          </ul>
+        </div>
+
+        <!-- โซนสีเหลือง: เฝ้าระวัง -->
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+          <div class="flex items-center space-x-2 mb-1.5">
+            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+            <h3 class="font-heading font-semibold text-amber-900 text-sm">ควรเฝ้าระวัง (ส่งรูปให้แอดมินช่วยดู)</h3>
+          </div>
+          <ul id="yellowSymptoms" class="text-xs text-amber-800 space-y-1.5 pl-5 list-disc leading-relaxed mb-3">
+            <!-- Render by JS -->
+          </ul>
+          <button onclick="sendSymptomReport('yellow')"
+                  class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-600 active:scale-[0.99] text-white font-heading font-medium text-xs rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5">
+            <span>💬 ส่งข้อความขอประเมินอาการทางแชท</span>
+          </button>
+        </div>
+
+        <!-- โซนสีแดง: ฉุกเฉิน -->
+        <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4">
+          <div class="flex items-center space-x-2 mb-1.5">
+            <span class="w-3 h-3 rounded-full bg-rose-600 animate-ping"></span>
+            <h3 class="font-heading font-semibold text-rose-900 text-sm">อาการเสี่ยง / ฉุกเฉิน (ติดต่อคลินิกทันที)</h3>
+          </div>
+          <ul id="redSymptoms" class="text-xs text-rose-800 space-y-1.5 pl-5 list-disc leading-relaxed mb-3">
+            <!-- Render by JS -->
+          </ul>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="tel:0800000000"
+               class="py-2.5 px-3 bg-rose-600 hover:bg-rose-700 text-white font-heading font-medium text-xs rounded-xl shadow-sm text-center transition">
+              📞 โทรสายด่วนพยาบาล
+            </a>
+            <button onclick="sendSymptomReport('red')"
+                    class="py-2.5 px-3 bg-white border border-rose-300 text-rose-700 hover:bg-rose-100 font-heading font-medium text-xs rounded-xl transition">
+              🚨 แจ้งเคสด่วนในแชท
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Sticky Action Bar -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur border-t border-slate-200 p-3 flex space-x-2 z-20">
+      <button onclick="sendGeneralQuestion()"
+              class="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-heading font-medium text-sm py-3 rounded-xl shadow-sm transition">
+        💬 สอบถามเจ้าหน้าที่เพิ่มเติม
+      </button>
     </div>
-  </section>
 
-  <section id="schedule" class="hide"><div class="card"><h2>ตารางแข่ง</h2><p class="mut">ยังไม่มีข้อมูล ส่วนนี้จะเปิดใช้เมื่อสร้างตารางแข่งขันแล้ว</p></div></section>
-  <section id="results" class="hide"><div class="card"><h2>ผล-คะแนน</h2><p class="mut">ยังไม่มีข้อมูล ส่วนนี้จะเปิดใช้เมื่อเริ่มกรอกผลการแข่ง</p></div></section>
-  <section id="bracket" class="hide"><div class="card"><h2>สายน็อกเอาต์</h2><p class="mut">ยังไม่มีข้อมูล ส่วนนี้จะเปิดใช้เมื่อมีรายการแบบแพ้คัดออก</p></div></section>
+  </div>
 
-  <section id="admin" class="hide">
-    <div id="loginBox" class="card">
-      <h2>เข้าสู่ระบบผู้จัด</h2>
-      <label for="email" class="mut">อีเมล</label>
-      <input id="email" type="email" autocomplete="username" inputmode="email">
-      <label for="pw" class="mut">รหัสผ่าน</label>
-      <input id="pw" type="password" autocomplete="current-password">
-      <button id="login" class="btn">เข้าสู่ระบบ</button>
-      <p id="err" class="err" role="alert"></p>
-    </div>
-    <div id="adminBox" class="card hide">
-      <h2>ผู้จัด</h2>
-      <p id="who"></p>
-      <button id="logout" class="btn alt">ออกจากระบบ</button>
-    </div>
-    <div id="adminTools" class="hide"></div>
-  </section>
-</main>
+  <!-- Toast Notification สำหรับทดสอบนอกแอป LINE -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 max-w-xs text-center">
+  </div>
 
-<nav id="nav" aria-label="เมนูหลัก"></nav>
+  <script>
+    // ==========================================
+    // 1. ตั้งค่า LINE LIFF ID ของคลินิก
+    // ==========================================
+    const LIFF_ID = "YOUR_LIFF_ID_HERE"; // นำ LIFF ID จาก LINE Developers มาใส่ตรงนี้
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="config.js"></script>
-<script src="engine.js"></script>
-<script src="public.js"></script>
-<script src="admin.js"></script>
-<script src="play.js"></script>
-<script src="ko.js"></script>
-<script>
-const db = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-const $ = s => document.querySelector(s);
-const tabs = {home:'หน้าแรก', schedule:'ตารางแข่ง', results:'ผล-คะแนน', bracket:'สายน็อกเอาต์', admin:'จัดการ'};
+    let currentProc = 'rhinoplasty';
+    let currentDay = 'd0_3';
+    let isLiffReady = false;
 
-Object.entries(tabs).forEach(([k, label]) => {
-  const b = document.createElement('button');
-  b.textContent = label; b.dataset.k = k; b.onclick = () => show(k);
-  $('#nav').append(b);
-});
+    // ==========================================
+    // 2. ฐานข้อมูลการดูแลตัวเองแยกตามหัตถการและวัน
+    // ==========================================
+    const careDatabase = {
+      rhinoplasty: {
+        name: "เสริมจมูก",
+        d0_3: {
+          compress: { icon: "❄️", title: "ประคบเย็นรอบจมูกและใต้ตา", desc: "ประคบเย็นบ่อยๆ ครั้งละ 15-20 นาที ห้ามวางเจลทับบนสันจมูกโดยตรง", theme: "sky" },
+          checklist: [
+            "นอนหมอนสูง 30-45 องศา (ใช้หมอนรองคอช่วยล็อกศีรษะ)",
+            "กินยาฆ่าเชื้อและยาลดบวมให้ครบตามแพทย์สั่ง",
+            "เช็ดทำความสะอาดแผลในรูจมูกด้วยน้ำเกลือ + ทาขี้ผึ้ง",
+            "งดล้างหน้า ใช้คลีนซิ่งหรือน้ำเกลือเช็ดผิวหน้าแทน"
+          ],
+          donts: [
+            "ห้ามแคะ แกะ เกา หรือสั่งน้ำมูกแรงๆ",
+            "งดอาหารหมักดอง อาหารทะเล ไข่ ปลาร้า และแอลกอฮอล์",
+            "ห้ามก้มหน้าต่ำกว่าหัวใจ หรือยกของหนัก"
+          ],
+          green: ["หน้าผาก ใต้ตา และหัวตาบวมตึงหรือมีรอยช้ำเหลือง/ม่วง", "มีน้ำเหลืองหรือเลือดซึมเล็กน้อยใน 48 ชม. แรก", "รู้สึกตึงบริเวณปลายจมูกหรือริมฝีปากบน"],
+          yellow: ["บวมแดงเพิ่มขึ้นเรื่อยๆ หลังวันที่ 3", "ปวดตุบๆ บริเวณสันจมูกไม่ทุเลาแม้กินยาแก้ปวดแล้ว"],
+          red: ["เลือดสดไหลไม่หยุดเกิน 20 นาที", "มีหนองไหลออกจากแผล มีกลิ่นเหม็น หรือมีไข้สูง", "ปลายจมูกขาวซีดหรือแดงคล้ำผิดปกติ"]
+        },
+        d4_7: {
+          compress: { icon: "♨️", title: "เปลี่ยนเป็นประคบอุ่น (วันที่ 4 เป็นต้นไป)", desc: "ประคบอุ่นเบาๆ บริเวณแก้มและใต้ตา เพื่อช่วยให้รอยช้ำและเลือดคั่งจางไวขึ้น", theme: "amber" },
+          checklist: [
+            "ประคบอุ่นวันละ 3-4 ครั้ง ครั้งละ 10-15 นาที (ระวังอย่าร้อนเกินไป)",
+            "ทำความสะอาดแผลด้วยน้ำเกลือเช้า-เย็น",
+            "เตรียมตัวเข้ามาตัดไหมตามนัดหมายของคลินิก"
+          ],
+          donts: [
+            "ห้ามแกะสะเก็ดแผลเอง รอให้หลุดหรือตัดไหมพร้อมพยาบาล",
+            "งดใส่แว่นตาที่มีน้ำหนักกดทับสันจมูก",
+            "งดสูบบุหรี่และเครื่องดื่มแอลกอฮอล์"
+          ],
+          green: ["อาการบวมเริ่มยุบลง แต่สองข้างอาจยุบไม่เท่ากัน", "เริ่มมีอาการคันยุบยิบบริเวณแผล (สัญญาณแผลกำลังสมาน)"],
+          yellow: ["เฝือกดามจมูกหลวมหรือหลุดก่อนกำหนด", "แผลมีคราบเหลืองหนาหรือบวมแดงรอบปมไหม"],
+          red: ["แผลปริแยกเห็นซิลิโคน", "มีหนองไหลและปวดบวมร้อนบริเวณจมูก"]
+        },
+        d8_14: {
+          compress: { icon: "✨", title: "งดประคบ — เน้นรักษาความสะอาดหลังตัดไหม", desc: "หลังตัดไหม 24 ชม. สามารถล้างหน้าด้วยน้ำสะอาดได้ตามปกติ", theme: "teal" },
+          checklist: [
+            "ทายาลดรอยแผลเป็นบริเวณขอบแผล (หลังตัดไหม 2-3 วัน)",
+            "ล้างหน้าด้วยโฟมอ่อนโยน ซับหน้าเบาๆ",
+            "กินวิตามินหรืออาหารโปรตีนสูงเพื่อฟื้นฟูเนื้อเยื่อ"
+          ],
+          donts: [
+            "งดนวด คลึง หรือบีบสิวเสี้ยนบริเวณจมูกแรงๆ",
+            "งดออกกำลังกายหนักที่มีแรงกระแทก",
+            "งดใส่แว่นตา (หากจำเป็นให้ใช้เทปแปะยกแว่นช่วย)"
+          ],
+          green: ["สันจมูกยังดูสูงหรือโตกว่าปกติเนื่องจากอาการบวมภายใน", "ปลายจมูกยังรู้สึกชาหรือตึงเล็กน้อย"],
+          yellow: ["รู้สึกว่าแกนจมูกเอียงชัดเจนหลังยุบบวม", "มีตุ่มแดงคล้ายสิวอักเสบขึ้นตรงปลายจมูก"],
+          red: ["ปลายจมูกแดงช้ำและปวดจี๊ดตลอดเวลา", "มีน้ำหนองซึมออกจากรูจมูก"]
+        },
+        d15_plus: {
+          compress: { icon: "🌿", title: "ช่วงเข้าที่ — ดูแลต่อเนื่องจนครบ 1-3 เดือน", desc: "ทรงจมูกจะค่อยๆ รัดแกนและเรียวสวยขึ้นตามลำดับ", theme: "teal" },
+          checklist: [
+            "ทายาลดรอยแผลเป็นสม่ำเสมอเช้า-เย็น",
+            "เข้าพบแพทย์เพื่อติดตามผล (Follow-up) ตามนัด 1 เดือน",
+            "ดูแลสุขภาพทั่วไป พักผ่อนให้เพียงพอ"
+          ],
+          donts: [
+            "ระวังการกระแทกจากสัตว์เลี้ยง เด็กเล็ก หรือการเล่นกีฬา",
+            "งดทำเลเซอร์หรือทรีตเมนต์ความร้อนสูงบนจมูกในช่วง 1 เดือนแรก"
+          ],
+          green: ["จมูกยุบบวมแล้ว 70-80% และจะรัดแกนเต็มที่ใน 3-6 เดือน", "อาการชาปลายจมูกค่อยๆ ดีขึ้น"],
+          yellow: ["สังเกตเห็นขอบซิลิโคนชัดหรือรู้สึกเสียวปลายจมูกเวลาอากาศเย็น"],
+          red: ["บวมแดงเฉียบพลันหรือมีหนองไหล"]
+        }
+      },
+      eyelid: {
+        name: "ตาสองชั้น",
+        d0_3: {
+          compress: { icon: "❄️", title: "ประคบเย็นบนเปลือกตาและหน้าผาก", desc: "ใช้ผ้าสะอาดรองเจลเย็น ประคบเบาๆ ครั้งละ 15 นาที ห้ามกดทับแรง", theme: "sky" },
+          checklist: [
+            "นอนหมอนสูงเพื่อลดอาการตาบวมในตอนเช้า",
+            "เช็ดคราบเลือดซึมด้วยไม้พันสำลีชุบน้ำเกลือหมาดๆ",
+            "หยอดน้ำตาเทียมหากรู้สึกตาแห้งหรือระคายเคือง",
+            "กินยาตามแพทย์สั่งให้ครบ"
+          ],
+          donts: [
+            "ห้ามขยี้ตาหรือดึงเปลือกตาเด็ดขาด",
+            "งดใส่คอนแทคเลนส์ (ให้ใส่แว่นสายตาแทน)",
+            "งดใช้สายตาจ้องจอมือถือ/คอมพิวเตอร์นานเกินไป"
+          ],
+          green: ["ชั้นตาดูใหญ่และบวมตึงมากในช่วง 3 วันแรก", "เปลือกตาทั้งสองข้างบวมไม่เท่ากัน", "หลับตาไม่สนิทเล็กน้อยเนื่องจากอาการบวม"],
+          yellow: ["มีขี้ตาสีเขียว/เหลืองจำนวนมากผิดปกติ", "ปวดเบ้าตาอย่างรุนแรง"],
+          red: ["ตามัวลง มองเห็นภาพซ้อน หรือการมองเห็นลดลง", "เลือดสดไหลออกจากแผลไม่หยุด"]
+        },
+        d4_7: {
+          compress: { icon: "♨️", title: "เริ่มประคบอุ่นรอบดวงตา", desc: "ประคบอุ่นเบาๆ วันละ 3 ครั้ง ช่วยให้ชั้นตายุบบวมและรอยช้ำจางลง", theme: "amber" },
+          checklist: [
+            "ทำความสะอาดแผลด้วยน้ำเกลือและทายาฆ่าเชื้อบางๆ",
+            "ฝึกกลอกตาขึ้น-ลงเบาๆ เพื่อบริหารกล้ามเนื้อตา",
+            "มาตัดไหมตามวันนัด (ปกติ 5-7 วัน)"
+          ],
+          donts: [
+            "งดแต่งหน้าบริเวณรอบดวงตาและขนตา",
+            "ห้ามแกะสะเก็ดแผลหรือดึงปมไหมเอง"
+          ],
+          green: ["รอยช้ำเปลี่ยนเป็นสีเหลืองจางๆ", "รู้สึกคันตึงบริเวณแนวไหมเย็บ"],
+          yellow: ["ไหมหลุดก่อนวันนัด", "เปลือกตาบวมแดงร้อนมากขึ้น"],
+          red: ["แผลแยกหรือมีหนองไหลจากรอยเย็บ"]
+        },
+        d8_14: {
+          compress: { icon: "✨", title: "งดประคบ — เริ่มทายาลดรอยแผลเป็น", desc: "หลังตัดไหม 2 วัน สามารถล้างหน้าและแต่งหน้าอ่อนๆ ได้", theme: "teal" },
+          checklist: [
+            "ทายาลดรอยแผลเป็นบางๆ ตามแนวชั้นตา (ระวังเข้าตา)",
+            "ใส่แว่นกันแดดเมื่อออกกลางแจ้งเพื่อป้องกันรอยดำ"
+          ],
+          donts: [
+            "งดติดสติกเกอร์ตาสองชั้นหรือดัดขนตาแรงๆ",
+            "หลีกเลี่ยงการเช็ดเครื่องสำอางด้วยการถูแรงๆ"
+          ],
+          green: ["ชั้นตายังดูหนาอยู่ (จะค่อยๆ ยุบเข้าที่ใน 1-3 เดือน)"],
+          yellow: ["รู้สึกตึงรั้งเวลาหลับตามากผิดปกติ"],
+          red: ["ตาอักเสบแดงก่ำ ปวดตา และมีหนอง"]
+        },
+        d15_plus: {
+          compress: { icon: "🌿", title: "ช่วงชั้นตาเข้าที่ตามธรรมชาติ", desc: "ชั้นตาจะค่อยๆ พับตัวสวยและเป็นธรรมชาติมากขึ้น", theme: "teal" },
+          checklist: [
+            "ทายาลดรอยแผลเป็นต่อเนื่องทุกวัน",
+            "เข้าพบแพทย์ตามนัดตรวจติดตามผล"
+          ],
+          donts: [
+            "งดนวดคลึงเปลือกตาแรงๆ"
+          ],
+          green: ["รอยแผลเป็นอาจมีสีชมพูระเรื่อและจะค่อยๆ จางลง"],
+          yellow: ["ชั้นตาดูหลุดหรือคลายตัวไม่เท่ากันชัดเจนหลังครบ 1 เดือน"],
+          red: ["เกิดก้อนบวมแดงอักเสบเฉียบพลันที่เปลือกตา"]
+        }
+      },
+      breast: {
+        name: "เสริมหน้าอก",
+        d0_3: {
+          compress: { icon: "🎽", title: "ใส่ Support Bra และรัดสายคาดหน้าอกตลอด 24 ชม.", desc: "ช่วยประคองทรงซิลิโคน ลดอาการบวม และป้องกันซิลิโคนเคลื่อนที่", theme: "sky" },
+          checklist: [
+            "นอนหงายยกศีรษะและลำตัวช่วงบนสูง 30 องศา",
+            "กินยาแก้ปวด ยาคลายกล้ามเนื้อ และยาฆ่าเชื้อตรงเวลา",
+            "ขยับเดินเบาๆ ในบ้านเพื่อกระตุ้นการไหลเวียนเลือด"
+          ],
+          donts: [
+            "ห้ามยกแขนสูงเกินระดับไหล่ หรือยกของหนักเกิน 2 กก.",
+            "ห้ามถอด Support Bra ออกเองยกเว้นตอนทำความสะอาดแผล",
+            "ห้ามนอนตะแคงหรือนอนคว่ำ"
+          ],
+          green: ["รู้สึกแน่นหน้าอก หายใจไม่เต็มอิ่มเล็กน้อยจากสายรัด", "หน้าอกบวมตึง ลอยสูง และแข็งเป็นก้อนในช่วงแรก"],
+          yellow: ["สายรัดแน่นจนชาปลายนิ้วมือหรือหายใจลำบากมาก", "มีไข้ต่ำๆ อ่อนเพลีย"],
+          red: ["หน้าอกข้างใดข้างหนึ่งบวมโตขึ้นอย่างรวดเร็วและปวดรุนแรง", "มีไข้สูง หนาวสั่น หรือเลือดชุ่มผ้าก๊อซ"]
+        },
+        d4_7: {
+          compress: { icon: "🎽", title: "สวม Support Bra ต่อเนื่อง + ดูแลแผลผ่าตัด", desc: "เช็ดตัวแทนการอาบน้ำฝักบัว ห้ามให้แผลโดนน้ำเด็ดขาด", theme: "amber" },
+          checklist: [
+            "สังเกตแผลใต้ราวนมหรือรักแร้ให้แห้งสะอาดอยู่เสมอ",
+            "เริ่มฝึกขยับหัวไหล่และแขนเบาๆ ไม่ให้ข้อไหล่ยึด"
+          ],
+          donts: [
+            "ห้ามขับรถเองหรือออกแรงดึง/ผลักประตูหนักๆ",
+            "งดอาหารแสลงและแอลกอฮอล์"
+          ],
+          green: ["อาการปวดตึงเริ่มลดลง สามารถลุกนั่งได้สะดวกขึ้น", "ผิวหนังบริเวณหน้าอกอาจมีรอยช้ำเหลือง"],
+          yellow: ["แผ่นปิดแผลกันน้ำหลุดหรือมีน้ำซึมเข้าแผล"],
+          red: ["แผลบวมแดงร้อน มีหนองไหล หรือแผลปริ"]
+        },
+        d8_14: {
+          compress: { icon: "✨", title: "ตัดไหม / เปิดแผล (ตามนัดแพทย์)", desc: "หลังตัดไหม 24-48 ชม. สามารถอาบน้ำได้ตามปกติ", theme: "teal" },
+          checklist: [
+            "ใส่ Support Bra ต่อเนื่องทั้งกลางวันและกลางคืน",
+            "เริ่มทายาลดรอยแผลเป็นหลังแผลแห้งสนิท",
+            "ทำตามคำแนะนำเรื่องการนวดหน้าอก (เฉพาะกรณีแพทย์สั่ง)"
+          ],
+          donts: [
+            "ห้ามใส่ชุดชั้นในแบบมีโครงเหล็ก (Underwire Bra)",
+            "งดออกกำลังกายช่วงบน เช่น วิดพื้น ยกเวท"
+          ],
+          green: ["ซิลิโคนเริ่มคล้อยตัวลงสู่ตำแหน่งธรรมชาติมากขึ้น", "มีอาการเสียวแปลบที่หัวนมเป็นระยะ (เส้นประสาทกำลังฟื้นตัว)"],
+          yellow: ["ซิลิโคนทั้งสองข้างสูงต่ำต่างกันมากชัดเจน"],
+          red: ["มีอาการอักเสบ บวมแดง ร้อน และมีไข้"]
+        },
+        d15_plus: {
+          compress: { icon: "🌿", title: "ช่วงหน้าอกนิ่มและเข้าทรง (1-6 เดือน)", desc: "สวม Support Bra หรือสปอร์ตบราไร้โครงต่อเนื่องจนครบ 1-3 เดือน", theme: "teal" },
+          checklist: [
+            "ทายาลดรอยแผลเป็นหรือแปะแผ่นซิลิโคนลดรอยแผลสม่ำเสมอ",
+            "เข้าพบแพทย์ตามนัดเพื่อตรวจเช็กความนิ่มและทรงหน้าอก"
+          ],
+          donts: [
+            "งดใส่บราดันทรงมีโครงแข็งจนกว่าแพทย์จะอนุญาต (ปกติหลัง 3 เดือน)"
+          ],
+          green: ["หน้าอกจะค่อยๆ นิ่มลงและเป็นธรรมชาติมากขึ้นทุกเดือน"],
+          yellow: ["หน้าอกแข็งตึงผิดปกติหรือรู้สึกเจ็บเวลาสัมผัส"],
+          red: ["บวมแดงเฉียบพลันหรือมีน้ำไหลจากแผลเดิม"]
+        }
+      }
+    };
 
-function show(k) {
-  if (!tabs[k]) k = 'home';
-  document.querySelectorAll('main section').forEach(s => s.classList.toggle('hide', s.id !== k));
-  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
-  history.replaceState(null, '', '#' + k);
-}
+    // ==========================================
+    // 3. ฟังก์ชันจัดการ UI และการโต้ตอบ
+    // ==========================================
+    function selectProcedure(proc) {
+      currentProc = proc;
+      document.querySelectorAll('.proc-btn').forEach(btn => {
+        if (btn.dataset.proc === proc) {
+          btn.className = "proc-btn flex flex-col items-center justify-center p-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-800 transition";
+        } else {
+          btn.className = "proc-btn flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition";
+        }
+      });
+      renderContent();
+    }
 
-async function loadHome() {
-  const count = t => db.from(t).select('*', {count: 'exact', head: true});
-  const [s, sp, tm, mt] = await Promise.all([
-    db.from('settings').select('event_name').single(), count('sports'), count('teams'), count('matches')
-  ]);
-  if (s.error) { $('#status').textContent = 'เชื่อมต่อฐานข้อมูลไม่ได้ ตรวจค่าใน config.js'; return; }
-  $('#title').textContent = s.data.event_name;
-  $('#status').textContent = 'เชื่อมต่อฐานข้อมูลแล้ว';
-  $('#nSports').textContent = sp.count ?? 0;
-  $('#nTeams').textContent = tm.count ?? 0;
-  $('#nMatches').textContent = mt.count ?? 0;
-  if (typeof renderPublic === 'function') renderPublic();
-}
+    function selectDay(day) {
+      currentDay = day;
+      document.querySelectorAll('.day-btn').forEach(btn => {
+        if (btn.dataset.day === day) {
+          btn.className = "day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-teal-600 text-white shadow-sm transition";
+        } else {
+          btn.className = "day-btn shrink-0 px-4 py-2 rounded-xl text-xs font-heading font-semibold bg-slate-100 text-slate-600 transition";
+        }
+      });
+      renderContent();
+    }
 
-async function refreshAuth() {
-  const {data: {session}} = await db.auth.getSession();
-  let isAdmin = false;
-  if (session) isAdmin = !!(await db.from('admins').select('user_id').maybeSingle()).data;
-  $('#loginBox').classList.toggle('hide', !!session);
-  $('#adminBox').classList.toggle('hide', !session);
-  $('#who').textContent = !session ? '' : isAdmin
-    ? 'เข้าสู่ระบบในชื่อ ' + session.user.email
-    : 'บัญชีนี้ยังไม่ได้รับสิทธิ์ผู้จัด ให้เพิ่มรหัสบัญชีในตาราง admins';
-  initAdmin(isAdmin);
-}
+    function renderContent() {
+      const data = careDatabase[currentProc][currentDay];
 
-$('#login').onclick = async () => {
-  const {error} = await db.auth.signInWithPassword({email: $('#email').value.trim(), password: $('#pw').value});
-  $('#err').textContent = error ? 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' : '';
-  $('#pw').value = '';
-  refreshAuth();
-};
-$('#logout').onclick = async () => { await db.auth.signOut(); refreshAuth(); };
+      // 1. Update Compress Banner
+      const banner = document.getElementById('compressBanner');
+      const title = document.getElementById('compressTitle');
+      const desc = document.getElementById('compressDesc');
+      document.getElementById('compressIcon').textContent = data.compress.icon;
+      title.textContent = data.compress.title;
+      desc.textContent = data.compress.desc;
 
-show(location.hash.slice(1));
-loadHome();
-refreshAuth();
-</script>
+      const themeMap = {
+        sky: ["bg-sky-50 border-sky-200", "text-sky-900", "text-sky-700"],
+        amber: ["bg-amber-50 border-amber-200", "text-amber-900", "text-amber-700"],
+        teal: ["bg-teal-50 border-teal-200", "text-teal-900", "text-teal-700"]
+      };
+      const [bgCls, titleCls, descCls] = themeMap[data.compress.theme] || themeMap.sky;
+      banner.className = `${bgCls} border rounded-2xl p-4 flex items-start space-x-3 transition-colors`;
+      title.className = `font-heading font-semibold ${titleCls} text-sm`;
+      desc.className = `text-xs ${descCls} mt-0.5 leading-relaxed`;
+
+      // 2. Render Interactive Checklist (บันทึกสถานะรายวันใน LocalStorage)
+      const todayKey = `aftercare_${currentProc}_${currentDay}_${new Date().toDateString()}`;
+      const savedChecks = JSON.parse(localStorage.getItem(todayKey) || "{}");
+      const checklistEl = document.getElementById('checklistContainer');
+      checklistEl.innerHTML = "";
+
+      data.checklist.forEach((item, index) => {
+        const isChecked = !!savedChecks[index];
+        const row = document.createElement('label');
+        row.className = `flex items-start space-x-3 p-3 rounded-xl border cursor-pointer transition ${
+          isChecked ? 'bg-teal-50/60 border-teal-200 text-slate-400 line-through' : 'bg-slate-50 border-slate-100 text-slate-700 hover:bg-slate-100'
+        }`;
+        row.innerHTML = `
+          <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCheck(${index})"
+                 class="mt-0.5 w-4 h-4 accent-teal-600 rounded cursor-pointer shrink-0">
+          <span class="text-sm leading-snug">${item}</span>
+        `;
+        checklistEl.appendChild(row);
+      });
+      updateProgress(data.checklist.length, savedChecks);
+
+      // 3. Render Don'ts
+      document.getElementById('dontsList').innerHTML = data.donts
+        .map(d => `<li class="flex items-start space-x-2"><span class="text-rose-500 font-bold">•</span><span>${d}</span></li>`)
+        .join('');
+
+      // 4. Render 3-Level Symptoms
+      document.getElementById('greenSymptoms').innerHTML = data.green.map(s => `<li>${s}</li>`).join('');
+      document.getElementById('yellowSymptoms').innerHTML = data.yellow.map(s => `<li>${s}</li>`).join('');
+      document.getElementById('redSymptoms').innerHTML = data.red.map(s => `<li>${s}</li>`).join('');
+    }
+
+    function toggleCheck(index) {
+      const todayKey = `aftercare_${currentProc}_${currentDay}_${new Date().toDateString()}`;
+      const savedChecks = JSON.parse(localStorage.getItem(todayKey) || "{}");
+      savedChecks[index] = !savedChecks[index];
+      localStorage.setItem(todayKey, JSON.stringify(savedChecks));
+      renderContent();
+    }
+
+    function updateProgress(total, savedChecks) {
+      const done = Object.values(savedChecks).filter(Boolean).length;
+      document.getElementById('checklistProgress').textContent = `${done}/${total} สำเร็จ`;
+    }
+
+    // ==========================================
+    // 4. การเชื่อมต่อ LINE LIFF SDK
+    // ==========================================
+    async function initLiff() {
+      try {
+        await liff.init({ liffId: LIFF_ID });
+        isLiffReady = true;
+        if (liff.isLoggedIn()) {
+          const profile = await liff.getProfile();
+          document.getElementById('userName').textContent = profile.displayName;
+          if (profile.pictureUrl) {
+            document.getElementById('userAvatar').src = profile.pictureUrl;
+          }
+        }
+      } catch (err) {
+        console.warn("LIFF Init fallback (กำลังรันนอกแอป LINE หรือยังไม่ได้ใส่ LIFF ID):", err);
+      }
+    }
+
+    async function sendMessageToLineChat(messageText) {
+      if (isLiffReady && liff.isInClient()) {
+        try {
+          await liff.sendMessages([{ type: 'text', text: messageText }]);
+          liff.closeWindow(); // ปิดหน้า LIFF กลับไปหน้าแชทอัตโนมัติ
+        } catch (err) {
+          showToast("ไม่สามารถส่งข้อความได้ กรุณาตรวจสอบสิทธิ์ chat_message.write");
+        }
+      } else {
+        // โหมดทดสอบบนเบราว์เซอร์ทั่วไป
+        showToast(`จำลองการส่งเข้าแชท LINE OA:\n"${messageText}"`);
+      }
+    }
+
+    function sendSymptomReport(level) {
+      const procName = careDatabase[currentProc].name;
+      const dayLabel = document.querySelector(`.day-btn[data-day="${currentDay}"]`).textContent.trim();
+      if (level === 'yellow') {
+        sendMessageToLineChat(`[ขอประเมินอาการ - เฝ้าระวัง]\nหัตถการ: ${procName}\nระยะเวลา: ${dayLabel}\nคนไข้ต้องการส่งรูปภาพและสอบถามอาการเพิ่มเติมค่ะ`);
+      } else {
+        sendMessageToLineChat(`🚨 [แจ้งอาการเสี่ยงเร่งด่วน]\nหัตถการ: ${procName}\nระยะเวลา: ${dayLabel}\nพบอาการผิดปกติในกลุ่มสีแดง ขอติดต่อเจ้าหน้าที่ด่วนค่ะ`);
+      }
+    }
+
+    function sendGeneralQuestion() {
+      const procName = careDatabase[currentProc].name;
+      sendMessageToLineChat(`สวัสดีค่ะ สอบถามข้อมูลการดูแลตัวเองเพิ่มเติม (หัตถการ: ${procName})`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 3500);
+    }
+
+    // เริ่มต้นทำงาน
+    renderContent();
+    initLiff();
+  </script>
 </body>
 </html>
