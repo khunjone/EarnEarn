@@ -2,40 +2,34 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THE KLINIQUE SURGERY CENTER - อินโฟกราฟิกไทม์ไลน์ข้อปฏิบัติการพยาบาลหลังการผ่าตัด</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>THE KLINIQUE • Smart After Care</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Font: Sarabun -->
+  <!-- Google Fonts: Prompt (หัวข้อ/ป้ายสถานะ) & Sarabun (ข้อความสั้นกระชับ) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <script>
-    // กำหนดค่าธีมสีหรูหราสไตล์คลินิกศัลยกรรมความงาม (กรมท่า - ทองแชมเปญ - ขาวสะอาดตา)
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
+            heading: ['Prompt', 'sans-serif'],
             sans: ['Sarabun', 'sans-serif'],
           },
           colors: {
-            navy: {
-              950: '#081220',
-              900: '#0E1F38',
-              800: '#162D50',
-              700: '#1F3E6D',
-            },
-            champagne: {
-              50: '#FCF9F2',
-              100: '#F7EFE0',
-              200: '#EAD8B4',
-              300: '#DCBE85',
-              400: '#CFA45A',
-              500: '#B88B3E',
-              600: '#966E2B',
+            klinique: {
+              navy: '#0F172A',
+              navySoft: '#1E293B',
+              gold: '#D4AF37',
+              goldDeep: '#B48A3E',
+              goldTint: '#FBF7EE',
+              goldBorder: '#E8D5A9',
+              bg: '#F8FAFC',
             }
           }
         }
@@ -46,692 +40,1163 @@
   <style>
     body {
       font-family: 'Sarabun', sans-serif;
-      background-color: #F8FAFC;
-      color: #0E1F38;
+      background-color: #E2E8F0;
+      color: #0F172A;
+      -webkit-tap-highlight-color: transparent;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ลวดลายพื้นหลังบางเบาเพิ่มมิติความหรูหรา */
-    .luxury-pattern {
-      background-image: radial-gradient(rgba(207, 164, 90, 0.14) 1px, transparent 1px);
-      background-size: 22px 22px;
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Prompt', sans-serif;
     }
 
-    /* แอนิเมชันเมื่อสลับตัวกรองหัตถการ */
-    .timeline-node {
-      transition: opacity 0.25s ease, transform 0.25s ease;
+    /* ซ่อน Scrollbar สำหรับแถบไทม์ไลน์แนวนอน */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
-    /* การตั้งค่าสำหรับการสั่งพิมพ์และบันทึกเป็น PDF */
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 10mm 12mm;
-      }
+    /* แอนิเมชัน Bottom Sheet */
+    .sheet-backdrop {
+      transition: opacity 0.25s ease;
+    }
+    .sheet-panel {
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
 
-      body {
-        background-color: #FFFFFF !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
-      .no-print {
-        display: none !important;
-      }
-
-      .print-only {
-        display: block !important;
-      }
-
-      .timeline-card {
-        break-inside: avoid;
-        page-break-inside: avoid;
-        box-shadow: none !important;
-        border: 1px solid #CBD5E1 !important;
-      }
-
-      .emergency-footer {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.8;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-champagne-200 selection:text-navy-900">
+<body class="min-h-screen flex justify-center">
 
   <!-- =====================================================================
-       ส่วนหัว (HEADER) : THE KLINIQUE SURGERY CENTER
+       MOBILE APP SHELL (max-w-[430px] ให้ความรู้สึกเหมือนแอปมือถือจริง)
        ===================================================================== -->
-  <header class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 text-white overflow-hidden border-b-4 border-champagne-400">
-    <!-- แสงฟุ้งตกแต่งมุมบน -->
-    <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-champagne-400/10 blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-champagne-300/10 blur-3xl pointer-events-none"></div>
+  <div class="w-full max-w-[430px] min-h-screen bg-[#F8FAFC] shadow-2xl flex flex-col relative pb-24">
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-11 relative z-10">
-      <!-- แถบชื่อหน่วยงานและปุ่มพิมพ์ -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-white/15">
-        <div class="flex items-start sm:items-center gap-3.5">
-          <!-- สัญลักษณ์ตราสัญลักษณ์คลินิก (Inline SVG) -->
-          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-champagne-300 via-champagne-400 to-champagne-600 p-[1.5px] shrink-0 shadow-lg">
-            <div class="w-full h-full bg-navy-950 rounded-[14px] flex items-center justify-center">
-              <svg class="w-7 h-7 text-champagne-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3L4 7v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V7l-8-4z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8M8 12h8" />
-              </svg>
+    <!-- ===================================================================
+         1. COMPACT STICKY HEADER & COLLAPSIBLE SETUP CARD
+         =================================================================== -->
+    <header class="sticky top-0 z-30 bg-[#0F172A] text-white border-b border-[#B48A3E]/40 shadow-md">
+      <!-- Top Bar -->
+      <div class="px-4 py-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#B48A3E] flex items-center justify-center shrink-0">
+            <span class="font-heading font-bold text-xs text-[#0F172A]">TK</span>
+          </div>
+          <span class="font-heading font-bold text-xs tracking-wider text-[#D4AF37] truncate">
+            THE KLINIQUE • AFTER CARE
+          </span>
+        </div>
+
+        <!-- ปุ่มสลับเปิด/ปิดหน้าตั้งค่าหัตถการและวันที่ผ่าตัด -->
+        <button type="button" onclick="toggleSetupPanel()"
+                class="min-h-[36px] px-3 py-1 rounded-full bg-white/10 hover:bg-white/15 active:scale-95 border border-[#D4AF37]/45 text-[11px] font-heading font-medium text-white flex items-center gap-1.5 shrink-0 transition cursor-pointer">
+          <span id="headerSummaryPill" class="truncate max-w-[175px]">👃 จมูก Close/Semi • วันนี้</span>
+          <span id="headerToggleAction" class="text-[#D4AF37] font-semibold">[เปลี่ยน]</span>
+        </button>
+      </div>
+
+      <!-- Collapsible Setup Panel -->
+      <div id="setupPanel" class="bg-[#1E293B] border-t border-white/10 px-4 py-4 space-y-4">
+        <!-- Step 1: เลือกหัตถการ -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-heading font-semibold text-[#D4AF37]">
+              1. เลือกหัตถการของคุณ
+            </span>
+            <span class="text-[11px] text-slate-400">แตะเพื่อเลือก</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2" id="procedureGrid">
+            <button type="button" data-proc="nose_close" onclick="selectProcedure('nose_close')"
+                    class="proc-btn min-h-[68px] p-2 rounded-2xl border-2 flex flex-col items-center justify-center text-center transition active:scale-95 cursor-pointer">
+              <span class="text-2xl leading-none mb-1">👃</span>
+              <span class="font-heading font-semibold text-[11px] leading-tight">จมูก Close/Semi</span>
+            </button>
+
+            <button type="button" data-proc="nose_open" onclick="selectProcedure('nose_open')"
+                    class="proc-btn min-h-[68px] p-2 rounded-2xl border-2 flex flex-col items-center justify-center text-center transition active:scale-95 cursor-pointer">
+              <span class="text-2xl leading-none mb-1">👃</span>
+              <span class="font-heading font-semibold text-[11px] leading-tight">จมูก Open</span>
+            </button>
+
+            <button type="button" data-proc="eye" onclick="selectProcedure('eye')"
+                    class="proc-btn min-h-[68px] p-2 rounded-2xl border-2 flex flex-col items-center justify-center text-center transition active:scale-95 cursor-pointer">
+              <span class="text-2xl leading-none mb-1">👁️</span>
+              <span class="font-heading font-semibold text-[11px] leading-tight">ศัลยกรรมตา</span>
+            </button>
+          </div>
+
+          <!-- Optional Graft Chips (แสดงเมื่อเลือกหัตถการจมูก) -->
+          <div id="graftChipsWrapper" class="mt-2.5 flex flex-wrap gap-2">
+            <button type="button" id="chipEar" onclick="toggleGraft('ear')"
+                    class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-heading font-medium flex items-center gap-1.5 transition active:scale-95 cursor-pointer">
+              <span>+ กระดูกอ่อนหลังหู</span>
+            </button>
+            <button type="button" id="chipCoccyx" onclick="toggleGraft('coccyx')"
+                    class="min-h-[38px] px-3 py-1.5 rounded-xl border text-xs font-heading font-medium flex items-center gap-1.5 transition active:scale-95 cursor-pointer">
+              <span>+ เนื้อเยื่อก้นกบ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: ลงวันที่ผ่าตัด + ปุ่มทดสอบด่วน -->
+        <div>
+          <label for="surgeryDateInput" class="block text-xs font-heading font-semibold text-[#D4AF37] mb-1.5">
+            2. วันที่ผ่าตัด
+          </label>
+          <input type="date" id="surgeryDateInput" onchange="handleDateInput(this.value)"
+                 class="w-full min-h-[44px] px-3.5 py-2 rounded-xl bg-[#0F172A] border border-[#B48A3E]/50 text-white font-heading font-medium text-sm focus:outline-none focus:border-[#D4AF37]" />
+
+          <!-- ปุ่มลัดทดสอบช่วงวันต่างๆ ใน 1 แตะ -->
+          <div class="mt-2.5">
+            <span class="block text-[11px] text-slate-400 mb-1.5">ทดลองดูคำแนะนำตามวันหลังผ่าตัด:</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" onclick="applyPresetDaysAgo(0)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันนี้ (Day 0)
+              </button>
+              <button type="button" onclick="applyPresetDaysAgo(2)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันที่ 2
+              </button>
+              <button type="button" onclick="applyPresetDaysAgo(5)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันที่ 5
+              </button>
+              <button type="button" onclick="applyPresetDaysAgo(7)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันที่ 7
+              </button>
+              <button type="button" onclick="applyPresetDaysAgo(14)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันที่ 14
+              </button>
+              <button type="button" onclick="applyPresetDaysAgo(45)" class="min-h-[34px] px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[11px] font-heading text-slate-200 transition active:scale-95 cursor-pointer">
+                วันที่ 45
+              </button>
             </div>
           </div>
-          <div>
-            <p class="text-champagne-300 font-bold tracking-wider text-sm sm:text-base uppercase">
-              THE KLINIQUE SURGERY CENTER
+        </div>
+
+        <!-- ปุ่มยืนยันและพับเก็บแผงตั้งค่า -->
+        <button type="button" onclick="closeSetupPanel()"
+                class="w-full min-h-[44px] rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#B48A3E] text-[#0F172A] font-heading font-bold text-sm shadow transition active:scale-[0.98] cursor-pointer">
+          ✓ ดูคำแนะนำการดูแลของฉัน
+        </button>
+      </div>
+    </header>
+
+    <!-- ===================================================================
+         MAIN CONTENT AREA
+         =================================================================== -->
+    <main class="flex-1 px-4 pt-4 space-y-5">
+
+      <!-- =================================================================
+           2. HERO STATUS CARD & HORIZONTAL TIMELINE STRIP
+           ================================================================= -->
+      <section class="space-y-3">
+        <!-- Hero Status Card -->
+        <div class="rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white p-4 shadow-lg border border-[#B48A3E]/40 relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-[#D4AF37]/10 blur-2xl pointer-events-none"></div>
+
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <span id="heroPhaseBadge"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-heading font-semibold bg-[#D4AF37]/20 text-[#FBF7EE] border border-[#D4AF37]/40">
+                ช่วง 72 ชม.แรก • เน้นลดบวม
+              </span>
+              <h1 id="heroDayCounter" class="font-heading font-bold text-3xl text-white mt-2 tracking-tight">
+                Day 0 หลังผ่าตัด
+              </h1>
+            </div>
+
+            <!-- ปุ่มกลับสู่ช่วงปัจจุบัน (แสดงเมื่อกดดูช่วงเวลาอื่น) -->
+            <button type="button" id="backToNowBtn" onclick="jumpToCurrentStage()"
+                    class="hidden min-h-[36px] px-3 py-1.5 rounded-xl bg-[#D4AF37] text-[#0F172A] font-heading font-bold text-[11px] shadow active:scale-95 transition cursor-pointer shrink-0">
+              กลับสู่ตอนนี้
+            </button>
+          </div>
+
+          <!-- Milestone Date คำนวณอัตโนมัติจากวันที่ผ่าตัด -->
+          <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+            <p id="heroMilestoneText" class="text-xs font-heading font-medium text-[#E8D5A9]">
+              ❄️ ครบ 72 ชม.ประคบเย็น: -
             </p>
-            <p class="text-slate-200 text-xs sm:text-sm font-normal mt-0.5">
-              ศูนย์ศัลยกรรมความงามแบบครบวงจร สยามสแควร์ ซอย 7
-            </p>
+            <span id="heroProcedureTag" class="text-[11px] text-slate-300 shrink-0">
+              👃 จมูก Close/Semi
+            </span>
           </div>
         </div>
 
-        <!-- ปุ่มสั่งพิมพ์ / บันทึก PDF -->
-        <div class="no-print flex items-center self-start md:self-auto">
-          <button
-            type="button"
-            onclick="window.print()"
-            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-champagne-400 to-champagne-500 hover:from-champagne-300 hover:to-champagne-400 text-navy-950 font-semibold text-sm shadow-md transition-all active:scale-95 cursor-pointer"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" />
-              <rect x="6" y="14" width="12" height="8" rx="1" />
-            </svg>
-            <span>สั่งพิมพ์ / บันทึก PDF</span>
+        <!-- Horizontal Scrollable 6-Stage Timeline Strip -->
+        <div>
+          <div class="flex items-center justify-between px-0.5 mb-1.5">
+            <span class="text-[11px] font-heading font-semibold text-slate-500">ไทม์ไลน์การฟื้นตัว (แตะเลือกช่วงเวลา)</span>
+            <span id="viewingStageLabel" class="text-[11px] font-heading font-semibold text-[#B48A3E]">กำลังดู: 0–3 วัน</span>
+          </div>
+          <div id="timelineStrip" class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+            <!-- สร้างด้วย JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           3A. SECTION A: ✅ วิธีดูแลช่วงนี้ (INTERACTIVE VISUAL CHECKLIST CARDS)
+           ================================================================= -->
+      <section class="space-y-2.5">
+        <div class="flex items-center justify-between gap-2 px-0.5">
+          <h2 class="font-heading font-bold text-base text-[#0F172A] flex items-center gap-1.5">
+            <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">✓</span>
+            <span>วิธีดูแลช่วงนี้</span>
+          </h2>
+
+          <!-- Slim Progress Indicator -->
+          <div class="flex items-center gap-2">
+            <span id="checklistCounterText" class="text-xs font-heading font-semibold text-emerald-700">
+              ทำแล้ว 0/0
+            </span>
+            <div class="w-16 h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div id="checklistProgressFill" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- รายการการ์ดวิธีดูแล (แตะเพื่อติ๊กถูก) -->
+        <div id="dosContainer" class="space-y-2">
+          <!-- สร้างด้วย JavaScript -->
+        </div>
+      </section>
+
+      <!-- =================================================================
+           3B. SECTION B: 🚫 ข้อห้าม & ระยะเวลางด (2-COLUMN VISUAL ICON GRID)
+           ================================================================= -->
+      <section class="space-y-2.5 pt-1">
+        <div class="flex items-center justify-between gap-2 px-0.5">
+          <h2 class="font-heading font-bold text-base text-[#0F172A] flex items-center gap-1.5">
+            <span class="w-6 h-6 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-xs font-bold">✕</span>
+            <span>ข้อห้าม & ระยะเวลางด</span>
+          </h2>
+          <span class="text-[11px] font-heading text-slate-500">นับจากวันผ่าตัด</span>
+        </div>
+
+        <!-- 2-Column Visual Grid -->
+        <div id="dontsGrid" class="grid grid-cols-2 gap-2.5">
+          <!-- สร้างด้วย JavaScript -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===================================================================
+         5. STICKY BOTTOM ACTION BAR (max-w-[430px])
+         =================================================================== -->
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 shadow-[0_-4px_20px_rgba(15,23,42,0.08)]">
+      <div class="grid grid-cols-2 gap-2.5">
+        <button type="button" onclick="openEmergencySheet()"
+                class="min-h-[48px] px-3 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-heading font-bold text-xs sm:text-sm shadow-sm flex items-center justify-center gap-1.5 transition cursor-pointer">
+          <span>🚨 อาการผิดปกติ</span>
+        </button>
+
+        <button type="button" onclick="copyStatusForLine()"
+                class="min-h-[48px] px-3 py-2.5 rounded-2xl bg-[#0F172A] hover:bg-[#1E293B] active:scale-[0.98] text-[#D4AF37] border border-[#B48A3E]/50 font-heading font-bold text-xs sm:text-sm shadow-sm flex items-center justify-center gap-1.5 transition cursor-pointer">
+          <span>📋 คัดลอกส่ง LINE</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         EMERGENCY BOTTOM SHEET MODAL
+         =================================================================== -->
+    <div id="emergencyModal" class="fixed inset-0 z-50 hidden">
+      <!-- Backdrop -->
+      <div id="emergencyBackdrop" onclick="closeEmergencySheet()"
+           class="sheet-backdrop fixed inset-0 bg-slate-950/60 backdrop-blur-[2px] opacity-0"></div>
+
+      <!-- Bottom Sheet Container -->
+      <div id="emergencySheetPanel"
+           class="sheet-panel fixed bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-full max-w-[430px] bg-white rounded-t-3xl p-5 pb-8 shadow-2xl border-t-4 border-rose-600">
+        <!-- Drag Handle -->
+        <div class="w-10 h-1.5 bg-slate-300 rounded-full mx-auto mb-4"></div>
+
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-11 h-11 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl shrink-0">
+              🚨
+            </div>
+            <div>
+              <span class="text-[11px] font-heading font-bold uppercase tracking-wider text-rose-600">
+                AFTER CARE EMERGENCY
+              </span>
+              <h3 class="font-heading font-bold text-lg text-[#0F172A] leading-tight">
+                สัญญาณอาการผิดปกติ
+              </h3>
+            </div>
+          </div>
+
+          <button type="button" onclick="closeEmergencySheet()"
+                  class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm cursor-pointer">
+            ✕
           </button>
         </div>
-      </div>
 
-      <!-- หัวข้อหลักของอินโฟกราฟิก -->
-      <div class="mt-6 sm:mt-8 text-center max-w-3xl mx-auto">
-        <span class="inline-block px-3.5 py-1 rounded-full bg-champagne-400/15 border border-champagne-400/40 text-champagne-200 text-xs sm:text-sm font-medium mb-3">
-          POST-OPERATIVE NURSING CARE TIMELINE
-        </span>
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug tracking-tight">
-          อินโฟกราฟิกไทม์ไลน์ ข้อปฏิบัติการพยาบาลหลังการผ่าตัด
-        </h1>
-        <p class="mt-2 text-champagne-200 text-base sm:text-lg font-medium">
-          ศัลยกรรมจมูก และ ศัลยกรรมตา
-        </p>
-      </div>
-
-      <!-- การ์ดแสดงขอบเขต 3 หัตถการ -->
-      <div class="mt-7 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-        <!-- หัตถการที่ 1 -->
-        <div class="bg-white/10 backdrop-blur-sm border border-champagne-400/30 rounded-2xl p-4 flex items-start gap-3">
-          <span class="w-7 h-7 rounded-full bg-champagne-400 text-navy-950 font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">1</span>
-          <div>
-            <h2 class="text-white font-semibold text-sm sm:text-base leading-snug">
-              ศัลยกรรมจมูก Close / Semi-open
-            </h2>
-            <p class="text-champagne-200/90 text-xs sm:text-sm mt-1 leading-relaxed">
-              (งานแก้ / งานใหม่ / หลังหู / ก้นกบ / เนื้อเยื่อเทียม)
-            </p>
-          </div>
+        <!-- ป้ายสัญญาณอันตราย 5 คำชัดเจน -->
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 text-center mb-4">
+          <p class="font-heading font-bold text-lg text-rose-700 tracking-wide">
+            ปวด • บวม • แดง • ร้อน • มีไข้
+          </p>
+          <p class="text-xs text-rose-800 mt-1">
+            หากพบอาการเหล่านี้ ให้รีบแจ้ง After Care และนัดพบแพทย์ทันที
+          </p>
         </div>
 
-        <!-- หัตถการที่ 2 -->
-        <div class="bg-white/10 backdrop-blur-sm border border-champagne-400/30 rounded-2xl p-4 flex items-start gap-3">
-          <span class="w-7 h-7 rounded-full bg-champagne-400 text-navy-950 font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">2</span>
-          <div>
-            <h2 class="text-white font-semibold text-sm sm:text-base leading-snug">
-              ศัลยกรรมจมูก Open Rhinoplasty
-            </h2>
-            <p class="text-champagne-200/90 text-xs sm:text-sm mt-1 leading-relaxed">
-              ศัลยกรรมจมูกแบบเปิด (Open Rhinoplasty)
-            </p>
-          </div>
-        </div>
+        <!-- ปุ่มโทรสายด่วน 1 แตะ -->
+        <div class="space-y-2.5">
+          <a href="tel:0812450690"
+             class="min-h-[50px] w-full px-4 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white font-heading font-bold text-sm flex items-center justify-between shadow transition">
+            <span>📞 สายด่วน After Care (เบอร์ 1)</span>
+            <span class="bg-white/20 px-2.5 py-0.5 rounded-lg text-xs">081-245-0690</span>
+          </a>
 
-        <!-- หัตถการที่ 3 -->
-        <div class="bg-white/10 backdrop-blur-sm border border-champagne-400/30 rounded-2xl p-4 flex items-start gap-3">
-          <span class="w-7 h-7 rounded-full bg-champagne-400 text-navy-950 font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">3</span>
-          <div>
-            <h2 class="text-white font-semibold text-sm sm:text-base leading-snug">
-              ศัลยกรรมตา
-            </h2>
-            <p class="text-champagne-200/90 text-xs sm:text-sm mt-1 leading-relaxed">
-              (ตา 2 ชั้น / ถุงใต้ตา / แก้ไขกล้ามเนื้อตา)
-            </p>
-          </div>
+          <a href="tel:0840154553"
+             class="min-h-[50px] w-full px-4 py-3 rounded-2xl bg-[#0F172A] hover:bg-[#1E293B] active:scale-[0.98] text-white font-heading font-bold text-sm flex items-center justify-between shadow transition">
+            <span>📞 สายด่วน After Care (เบอร์ 2)</span>
+            <span class="bg-[#D4AF37]/20 text-[#D4AF37] px-2.5 py-0.5 rounded-lg text-xs">084-015-4553</span>
+          </a>
         </div>
       </div>
     </div>
-  </header>
 
-  <!-- =====================================================================
-       แถบตัวกรองหัตถการ (INTERACTIVE FILTER BAR)
-       ===================================================================== -->
-  <nav aria-label="ตัวกรองหัตถการ" class="no-print sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
-        <span class="text-xs sm:text-sm font-semibold text-navy-800 flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-champagne-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          เลือกดูเฉพาะหัตถการ:
-        </span>
-
-        <div class="flex flex-wrap gap-2" id="filterButtons">
-          <button
-            type="button"
-            data-filter="all"
-            onclick="setFilter('all')"
-            class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-navy-900 text-champagne-200 border border-navy-900 shadow-sm"
-          >
-            ทั้งหมด
-          </button>
-          <button
-            type="button"
-            data-filter="nose_close"
-            onclick="setFilter('nose_close')"
-            class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-navy-800 border border-slate-300 hover:border-champagne-400"
-          >
-            จมูก Close-Semi open
-          </button>
-          <button
-            type="button"
-            data-filter="nose_open"
-            onclick="setFilter('nose_open')"
-            class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-navy-800 border border-slate-300 hover:border-champagne-400"
-          >
-            จมูก Open
-          </button>
-          <button
-            type="button"
-            data-filter="eye"
-            onclick="setFilter('eye')"
-            class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-navy-800 border border-slate-300 hover:border-champagne-400"
-          >
-            ศัลยกรรมตา
-          </button>
-        </div>
-      </div>
+    <!-- ===================================================================
+         TOAST NOTIFICATION
+         =================================================================== -->
+    <div id="toastBanner"
+         class="fixed top-16 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[390px] bg-[#0F172A] text-white border border-[#D4AF37] px-4 py-3 rounded-2xl shadow-xl text-xs font-heading font-medium text-center opacity-0 pointer-events-none transition-all duration-300">
+      คัดลอกข้อมูลเรียบร้อยแล้ว
     </div>
-  </nav>
 
-  <!-- แถบแจ้งสถานะตัวกรองเมื่อสั่งพิมพ์ PDF -->
-  <div class="hidden print-only max-w-5xl mx-auto px-4 pt-4">
-    <div class="px-4 py-2 rounded-xl bg-champagne-50 border border-champagne-300 text-navy-900 text-sm font-semibold">
-      หมวดหมู่ที่แสดงผล: <span id="printFilterLabel">ทั้งหมด (ทุกหัตถการ)</span>
-    </div>
   </div>
 
   <!-- =====================================================================
-       เนื้อหาหลัก : โครงสร้างไทม์ไลน์เรียงตามลำดับเวลา (TIMELINE NODES)
-       ===================================================================== -->
-  <main class="flex-1 luxury-pattern py-8 sm:py-12">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <!-- คำอธิบายสัญลักษณ์ป้ายกำกับหัตถการ -->
-      <div class="mb-8 bg-white rounded-2xl p-4 sm:p-5 border border-champagne-200/80 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <span class="text-xs sm:text-sm font-semibold text-navy-900">คำอธิบายป้ายกำกับหัตถการ:</span>
-        <div class="flex flex-wrap items-center gap-2 text-xs">
-          <span class="px-2.5 py-1 rounded-full font-semibold bg-navy-900 text-champagne-200 border border-champagne-400/50">ทุกหัตถการ</span>
-          <span class="px-2.5 py-1 rounded-full font-semibold bg-amber-50 text-amber-900 border border-amber-300">จมูก Close / Semi-open</span>
-          <span class="px-2.5 py-1 rounded-full font-semibold bg-sky-50 text-sky-900 border border-sky-300">จมูก Open</span>
-          <span class="px-2.5 py-1 rounded-full font-semibold bg-rose-50 text-rose-900 border border-rose-300">ศัลยกรรมตา</span>
-        </div>
-      </div>
-
-      <!-- เส้นแกนไทม์ไลน์แนวตั้ง -->
-      <div class="relative">
-        <!-- เส้นแกนสีทองแชมเปญด้านซ้าย -->
-        <div class="absolute left-5 sm:left-7 top-4 bottom-4 w-1 rounded-full bg-gradient-to-b from-champagne-400 via-champagne-300 to-navy-800"></div>
-
-        <!-- Container สำหรับเรนเดอร์ 8 ช่วงเวลา -->
-        <div id="timelineContainer" class="space-y-7 sm:space-y-9"></div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- =====================================================================
-       ส่วนท้าย (EMERGENCY ALERT FOOTER)
-       ===================================================================== -->
-  <footer class="emergency-footer bg-navy-950 text-white pt-8 pb-10 border-t-4 border-champagne-400">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-
-      <!-- กล่องแจ้งเตือนสีแดงเด่นชัด -->
-      <div class="rounded-2xl bg-gradient-to-r from-red-700 via-red-600 to-red-700 border-2 border-red-300/80 p-5 sm:p-6 shadow-xl">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-white/15 border border-white/30 flex items-center justify-center shrink-0">
-            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-          </div>
-          <div>
-            <span class="inline-block px-2.5 py-0.5 rounded-md bg-white text-red-700 text-xs font-bold uppercase tracking-wider mb-1.5">
-              EMERGENCY ALERT
-            </span>
-            <p class="text-white font-bold text-base sm:text-lg leading-relaxed">
-              หากมีอาการผิดปกติ ปวด บวม แดง ร้อน มีไข้ ให้รีบแจ้ง After Care และนัดเข้ามาพบแพทย์ทันที
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ช่องทางติดต่อ After Care -->
-      <div class="bg-navy-900/90 border border-champagne-400/30 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <p class="text-champagne-300 font-bold text-sm sm:text-base">
-            THE KLINIQUE SURGERY CENTER
-          </p>
-          <p class="text-slate-300 text-xs sm:text-sm mt-0.5">
-            ศูนย์ศัลยกรรมความงามแบบครบวงจร สยามสแควร์ ซอย 7
-          </p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm">
-          <!-- เบอร์โทรศัพท์ติดต่อ After Care -->
-          <div class="flex items-center gap-2.5">
-            <span class="w-9 h-9 rounded-xl bg-champagne-400/15 border border-champagne-400/40 flex items-center justify-center text-champagne-300 shrink-0">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-            </span>
-            <div>
-              <span class="block text-xs text-slate-400">After Care Service Call:</span>
-              <div class="font-semibold text-white">
-                <a href="tel:0812450690" class="hover:text-champagne-300 transition-colors">081 245 0690</a>,
-                <a href="tel:0840154553" class="hover:text-champagne-300 transition-colors">084 015 4553</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- เว็บไซต์คลินิก -->
-          <div class="flex items-center gap-2.5">
-            <span class="w-9 h-9 rounded-xl bg-champagne-400/15 border border-champagne-400/40 flex items-center justify-center text-champagne-300 shrink-0">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-              </svg>
-            </span>
-            <div>
-              <span class="block text-xs text-slate-400">Website:</span>
-              <a href="https://www.theklinique.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-champagne-200 hover:text-white transition-colors">
-                www.theklinique.com
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- =====================================================================
-       SCRIPT : ข้อมูลไทม์ไลน์และระบบกรองตามหัตถการ
+       JAVASCRIPT LOGIC: CLINICAL DATA, TIMELINE ENGINE & INTERACTIONS
        ===================================================================== -->
   <script>
-    /**
-     * ข้อมูลไทม์ไลน์ทั้งหมด 8 ช่วงเวลา
-     * ใช้ข้อมูลเฉพาะตามที่ระบุเท่านั้น ไม่มีการแต่งเติมข้อมูลนอกเหนือจากนี้
-     * tags: ['all'] หรือระบุกลุ่มหัตถการ ['nose_close', 'nose_open', 'eye']
-     */
-    const timelineData = [
-      {
-        step: "01",
-        period: "ช่วงที่ 1 : การดูแลประจำวัน (ทุกวัน เช้า – เย็น)",
-        badgeText: "ทุกวัน เช้า – เย็น",
-        iconType: "daily",
-        items: [
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "ทำแผลผ่าตัดเช้า – เย็น ด้วยอุปกรณ์ชุดทำแผล ใช้ Cotton Bud ชุบน้ำเกลือ เช็ดทำความสะอาดบริเวณแผลให้สะอาด ห้ามให้มีคราบเลือดหรือสิ่งสกปรกแห้งกรังติดแผลเด็ดขาด (ป้องกันแผลไม่สวยหรืออักเสบติดเชื้อ) และซับแผลให้แห้ง"
-          },
-          {
-            tags: ["nose_close", "eye"],
-            tagLabel: "จมูก Close / Semi-open และ ศัลยกรรมตา",
-            tagStyle: "combo_close_eye",
-            text: "หลังซับแผลให้แห้ง ทาด้วย Terramycin บาง ๆ ที่แผล"
-          },
-          {
-            tags: ["eye"],
-            tagLabel: "ศัลยกรรมตา",
-            tagStyle: "eye",
-            text: "ไม่ให้แผลโดนน้ำจนกว่าจะเข้ามาเช็คแผลและตัดไหม"
-          },
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "แนะนำทำความสะอาดใบหน้าโดยการเช็ดหน้า อย่าให้เฝือกเปียกน้ำหรือโดนแผลโดยตรง (อาบน้ำโดยไม่ให้น้ำโดนเฝือก) หลังจากล้างหน้าแล้วให้ทำความสะอาดแผลด้วยน้ำเกลือและซับให้แห้ง"
-          },
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "แปรงฟันอย่างเบามือเพื่อจำกัดการขยับริมฝีปากบน, สวมเสื้อผ้าแบบติดกระดุมหรือซิปด้านหน้า (หลีกเลี่ยงเสื้อสวมศีรษะ), หลีกเลี่ยงการแสดงสีหน้ามากเกินไป (เช่น ยิ้มกว้าง หัวเราะแรง), รับประทานอาหารกากใยสูง (ผักและผลไม้) ป้องกันท้องผูกและการเบ่ง, ทาครีมกันแดด SPF 30 เมื่อออกแดด โดยเฉพาะบริเวณจมูก"
-          }
-        ]
-      },
-      {
-        step: "02",
-        period: "ช่วงที่ 2 : หลังผ่าตัด 24 ชั่วโมงแรก",
-        badgeText: "24 ชั่วโมงแรก",
-        iconType: "24hr",
-        items: [
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "สวนล้างภายในโพรงจมูกด้วยน้ำเกลือ เพื่อทำความสะอาดคราบเลือดเก่า"
-          }
-        ]
-      },
-      {
-        step: "03",
-        period: "ช่วงที่ 3 : 72 ชั่วโมงแรกหลังผ่าตัด (และหลัง 72 ชั่วโมง)",
-        badgeText: "72 ชั่วโมงแรก & หลัง 72 ชม.",
-        iconType: "compress",
-        items: [
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "ประคบเย็น 72 ชั่วโมงหลังผ่าตัด เพื่อช่วยลดอาการบวม เขียว ช้ำ (หมายเหตุสำหรับจมูก Open: ไม่วางน้ำแข็งหรือเจลประคบกดทับลงบนสันจมูกโดยตรง)"
-          },
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "หลังจาก 72 ชั่วโมง สามารถประคบอุ่นได้ แต่ต้องได้รับอนุญาตจากแพทย์เจ้าของไข้ก่อนเท่านั้น (เนื่องจากบางเคสมีข้อยกเว้นในการประคบอุ่น)"
-          }
-        ]
-      },
-      {
-        step: "04",
-        period: "ช่วงที่ 4 : ครบ 3 วัน – 5 วันหลังผ่าตัด (กรณีใช้กระดูกอ่อนเสริม)",
-        badgeText: "ครบ 3 – 5 วัน",
-        iconType: "cartilage",
-        items: [
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open - ครบ 3 วัน",
-            tagStyle: "nose_open",
-            text: "กรณีใช้กระดูกอ่อนหลังหู ครบ 3 วันหลังเอาผ้าก๊อซ (gauze) ที่หลังหูออก สามารถสระผมได้ โดยระวังโดนแผลหรือใช้ที่ครอบหูครอบก่อนสระผม และซับแผลให้แห้งหลังสระผม"
-          },
-          {
-            tags: ["nose_close"],
-            tagLabel: "จมูก Close / Semi-open - ครบ 5 วัน",
-            tagStyle: "nose_close",
-            text: "กรณีใช้ก้นกบ เปิดทำแผลก้นกบหลังผ่าตัด 5 วัน ด้วยน้ำเกลือ และทาทับด้วย Betadine (หากแผ่นกันน้ำหลุดหรือมีน้ำซึม สามารถแกะออกมาทำแผลได้)"
-          }
-        ]
-      },
-      {
-        step: "05",
-        period: "ช่วงที่ 5 : ครบ 7 วันหลังผ่าตัด",
-        badgeText: "ครบ 7 วัน",
-        iconType: "day7",
-        items: [
-          {
-            tags: ["eye"],
-            tagLabel: "ศัลยกรรมตา",
-            tagStyle: "eye",
-            text: "นัดพบแพทย์ เพื่อติดตามอาการ และตัดไหม ครบ 7 วัน"
-          },
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "ห้ามถู ฟอก ขัด บริเวณแผลเด็ดขาด และรีบซับแผลให้แห้งทุกครั้งที่แผลโดนน้ำ จนกว่าจะตัดไหม"
-          }
-        ]
-      },
-      {
-        step: "06",
-        period: "ช่วงที่ 6 : นาน 7 – 14 วัน (1 – 2 สัปดาห์แรก)",
-        badgeText: "7 – 14 วัน (1–2 สัปดาห์)",
-        iconType: "sleep",
-        items: [
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "นอนศีรษะสูง อย่างน้อย 30 องศา นาน 7–14 วัน เพื่อลดอาการบวม และหลีกเลี่ยงท่านอนตะแคง (สามารถใช้หมอนรองคอตอนนอนได้เพื่อหลีกเลี่ยงการนอนตะแคง)"
-          },
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "หลีกเลี่ยงการใช้ยาหยอดหรือพ่นลดการคัดจมูกใน 2 อาทิตย์แรก"
-          },
-          {
-            tags: ["nose_close"],
-            tagLabel: "จมูก Close / Semi-open",
-            tagStyle: "nose_close",
-            text: "งดวางแว่นสายตาหรือแว่นกันแดดบนจมูกอย่างน้อย 2 สัปดาห์หลังผ่าตัด"
-          }
-        ]
-      },
-      {
-        step: "07",
-        period: "ช่วงที่ 7 : นาน 2 อาทิตย์ – 1 เดือน (รวมถึง 2–4 สัปดาห์)",
-        badgeText: "2 อาทิตย์ – 1 เดือน",
-        iconType: "lifestyle",
-        items: [
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "งดดื่มแอลกอฮอล์ นาน 2 อาทิตย์ – 1 เดือน (ลดอาการบวมและการหายของแผลช้าลง)"
-          },
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "งดสูบบุหรี่ นาน 2 อาทิตย์ – 1 เดือน (ลดอาการบวมและการหายของแผลช้าลง)"
-          },
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "งดอาหารทะเล อาหารแสลง ของหมักดอง อาหารที่ไม่สุก นาน 2 อาทิตย์ – 1 เดือน (เฉพาะศัลยกรรมตา ระบุเพิ่มเติม: งดอาหารรสเผ็ด รสจัด รสเค็ม ด้วย / เฉพาะจมูก Open ระบุเพิ่มเติม: ลดอาหารโซเดียมสูงช่วยให้ยุบบวมเร็วขึ้น)"
-          },
-          {
-            tags: ["nose_close", "eye"],
-            tagLabel: "จมูก Close / Semi-open และ ศัลยกรรมตา",
-            tagStyle: "combo_close_eye",
-            text: "งดวิตามิน (เช่น วิตามิน C, วิตามิน E, คอลลาเจน, น้ำมันปลา) สมุนไพรไทย/จีน ใบบัวบก อาหารเสริม นาน 2 อาทิตย์ – 1 เดือน"
-          },
-          {
-            tags: ["nose_close", "nose_open", "eye"],
-            tagLabel: "ทุกหัตถการ",
-            tagStyle: "all",
-            text: "หลีกเลี่ยงแผลแช่น้ำนาน ๆ หรือทำให้เปียกแฉะนาน ๆ เช่น อบซาวน่า ว่ายน้ำ ออกกำลังกาย นาน 2 อาทิตย์ – 1 เดือน (ป้องกันการอักเสบติดเชื้อ)"
-          },
-          {
-            tags: ["nose_close"],
-            tagLabel: "จมูก Close / Semi-open",
-            tagStyle: "nose_close",
-            text: "ห้ามถู ฟอก ขัด บริเวณแผลเด็ดขาด และรีบซับแผลให้แห้งทุกครั้งที่แผลโดนน้ำ นาน 1 เดือน"
-          },
-          {
-            tags: ["nose_open"],
-            tagLabel: "จมูก Open",
-            tagStyle: "nose_open",
-            text: "อาการบวมหรือรอยช้ำบริเวณเปลือกตาอาจเกิดชั่วคราวได้ 2–3 สัปดาห์ / งดวางแว่นสายตาหรือแว่นกันแดดบนสันจมูกอย่างน้อย 4 สัปดาห์ (สามารถใช้แผ่นรองแก้มหรือติดเทปยึดแว่นกับหน้าผากแทนได้)"
-          }
-        ]
-      },
-      {
-        step: "08",
-        period: "ช่วงที่ 8 : นาน 3 เดือน – 6 เดือนหลังผ่าตัด",
-        badgeText: "3 เดือน – 6 เดือน",
-        iconType: "longterm",
-        items: [
-          {
-            tags: ["nose_close", "nose_open"],
-            tagLabel: "จมูก Close / Semi-open และ จมูก Open - นาน 3 เดือน",
-            tagStyle: "combo_noses",
-            text: "ห้ามสั่งน้ำมูกแรง ๆ ไอ จาม แรง ๆ นาน 3 เดือน (หากมีอาการคัดจมูก น้ำมูกไหล สามารถรับประทานยาลดน้ำมูก Pseudoephedrine ได้) และหลีกเลี่ยงซาวน่า ว่ายน้ำ ออกกำลังกายหนัก (1–3 เดือน)"
-          },
-          {
-            tags: ["nose_close", "nose_open"],
-            tagLabel: "จมูก Close / Semi-open และ จมูก Open - นาน 6 เดือน",
-            tagStyle: "combo_noses",
-            text: "ห้ามจับ โยก บิด จมูก (จมูก Close / Semi-open ระบุระยะเวลา 6 เดือน)"
-          }
-        ]
-      }
+    const STORAGE_KEY = "tk_aftercare_mobile_v2";
+
+    // -----------------------------------------------------------------------
+    // 1. โครงสร้างไทม์ไลน์ 6 ช่วงเวลา
+    // -----------------------------------------------------------------------
+    const TIMELINE_STAGES = [
+      { id: "s1", label: "0–3 วัน", sub: "72 ชม.แรก", badge: "ช่วง 72 ชม.แรก • เน้นลดบวม" },
+      { id: "s2", label: "3–5 วัน", sub: "แผลเสริม/สระผม", badge: "ช่วง 3–5 วัน • ดูแลแผลเสริม" },
+      { id: "s3", label: "ครบ 7 วัน", sub: "ตัดไหมตามนัด", badge: "ช่วงครบ 7 วัน • นัดตัดไหม" },
+      { id: "s4", label: "7–14 วัน", sub: "ยุบบวม/นอนสูง", badge: "ช่วง 7–14 วัน • นอนหัวสูง" },
+      { id: "s5", label: "15–30 วัน", sub: "งดอาหาร/กิจกรรม", badge: "ช่วง 15–30 วัน • คุมอาหารแสลง" },
+      { id: "s6", label: "3–6 เดือน", sub: "เข้าที่ระยะยาว", badge: "ช่วง 3–6 เดือน • รัดแกนเข้าที่" }
     ];
 
-    /**
-     * คืนค่าสไตล์ป้ายกำกับ (Badge) สำหรับแต่ละกลุ่มหัตถการ
-     */
-    function getTagBadgeClasses(styleType) {
-      switch (styleType) {
-        case "all":
-          return "bg-navy-900 text-champagne-200 border border-champagne-400/50";
-        case "nose_close":
-          return "bg-amber-50 text-amber-900 border border-amber-300";
-        case "nose_open":
-          return "bg-sky-50 text-sky-900 border border-sky-300";
-        case "eye":
-          return "bg-rose-50 text-rose-900 border border-rose-300";
-        case "combo_close_eye":
-          return "bg-purple-50 text-purple-900 border border-purple-300";
-        case "combo_noses":
-          return "bg-teal-50 text-teal-900 border border-teal-300";
-        default:
-          return "bg-slate-100 text-slate-800 border border-slate-300";
+    const PROC_META = {
+      nose_close: { short: "👃 จมูก Close/Semi", full: "จมูก Close / Semi-open" },
+      nose_open:  { short: "👃 จมูก Open", full: "จมูก Open" },
+      eye:        { short: "👁️ ศัลยกรรมตา", full: "ศัลยกรรมตา (ตา 2 ชั้น / ถุงใต้ตา / กล้ามเนื้อตา)" }
+    };
+
+    // -----------------------------------------------------------------------
+    // 2. ฐานข้อมูลวิธีดูแล (Do's) และข้อห้าม (Don'ts) ตามมาตรฐาน THE KLINIQUE
+    // -----------------------------------------------------------------------
+    function buildDosList(proc, stageId, hasEar, hasCoccyx) {
+      const list = [];
+
+      if (proc === "nose_close") {
+        // เช็ดแผลเช้า-เย็น
+        if (["s1", "s2", "s3", "s4", "s5"].includes(stageId)) {
+          list.push({
+            id: "nc_clean",
+            icon: "🧼",
+            title: "เช็ดแผลเช้า-เย็น",
+            detail: "น้ำเกลือเช็ด ซับแห้ง ทา Terramycin",
+            tag: "ทุกวัน"
+          });
+        }
+        // ประคบเย็น 72 ชม.แรก
+        if (stageId === "s1") {
+          list.push({
+            id: "nc_cold",
+            icon: "❄️",
+            title: "ประคบเย็นรอบแผล",
+            detail: "72 ชม.แรก (ประคบอุ่นต้องรอแพทย์อนุญาต)",
+            tag: "0–3 วัน"
+          });
+        } else if (stageId === "s2") {
+          list.push({
+            id: "nc_warm_note",
+            icon: "♨️",
+            title: "ประคบอุ่นรอแพทย์สั่ง",
+            detail: "หลัง 72 ชม. ต้องให้แพทย์อนุญาตก่อน",
+            tag: "หลัง 72 ชม."
+          });
+        }
+        // สระผมได้ (ครบ 3 วัน) เฉพาะเคสกระดูกอ่อนหลังหู
+        if (hasEar && ["s1", "s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "nc_ear",
+            icon: "🚿",
+            title: "สระผมได้ (ครบ 3 วัน)",
+            detail: "เอา gauze ออก ใช้ที่ครอบหู ซับแผลแห้งทันที",
+            tag: "วันที่ 3+"
+          });
+        }
+        // ทำแผลก้นกบ (ครบ 5 วัน) เฉพาะเคสเนื้อเยื่อก้นกบ
+        if (hasCoccyx && ["s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "nc_coccyx",
+            icon: "🩹",
+            title: "ทำแผลก้นกบ (ครบ 5 วัน)",
+            detail: "เช็ดน้ำเกลือ + ทา Betadine",
+            tag: "วันที่ 5+"
+          });
+        }
+        // พบแพทย์ตัดไหม
+        if (["s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "nc_stitch",
+            icon: "🏥",
+            title: "พบแพทย์ตัดไหม",
+            detail: "ตรวจแผลตามนัดคลินิก",
+            tag: "ครบ 7 วัน"
+          });
+        }
+        // นอนหัวสูง 30°
+        if (["s1", "s2", "s3", "s4"].includes(stageId)) {
+          list.push({
+            id: "nc_sleep",
+            icon: "🛏️",
+            title: "นอนหัวสูง 30°",
+            detail: "ใช้หมอนรองคอ ห้ามนอนตะแคง",
+            tag: "7–14 วัน"
+          });
+        }
+        // คัดจมูกทานยาได้
+        list.push({
+          id: "nc_med",
+          icon: "🤧",
+          title: "คัดจมูกทานยาได้",
+          detail: "ทาน Pseudoephedrine ห้ามสั่งน้ำมูก",
+          tag: "ตลอดช่วงพักฟื้น"
+        });
+      }
+
+      if (proc === "nose_open") {
+        if (["s1", "s2", "s3", "s4", "s5"].includes(stageId)) {
+          list.push({
+            id: "no_clean",
+            icon: "🧼",
+            title: "เช็ดแผลเช้า-เย็น",
+            detail: "Cotton Bud น้ำเกลือ ซับแห้ง ไร้คราบเลือด",
+            tag: "ทุกวัน"
+          });
+        }
+        if (["s1", "s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "no_wipe",
+            icon: "🧻",
+            title: "เช็ดหน้าแทนล้าง",
+            detail: "ห้ามเฝือก/แผลเปียกน้ำ จนกว่าตัดไหม",
+            tag: "0–7 วัน"
+          });
+        }
+        if (stageId === "s1") {
+          list.push({
+            id: "no_cold",
+            icon: "❄️",
+            title: "ประคบเย็นรอบแผล",
+            detail: "72 ชม.แรก (ประคบอุ่นต้องรอแพทย์อนุญาต)",
+            tag: "0–3 วัน"
+          });
+        } else if (stageId === "s2") {
+          list.push({
+            id: "no_warm_note",
+            icon: "♨️",
+            title: "ประคบอุ่นรอแพทย์สั่ง",
+            detail: "หลัง 72 ชม. ต้องให้แพทย์อนุญาตก่อน",
+            tag: "หลัง 72 ชม."
+          });
+        }
+        if (hasEar && ["s1", "s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "no_ear",
+            icon: "🚿",
+            title: "สระผมได้ (ครบ 3 วัน)",
+            detail: "เอา gauze ออก ใช้ที่ครอบหู ซับแผลแห้งทันที",
+            tag: "วันที่ 3+"
+          });
+        }
+        if (["s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "no_stitch",
+            icon: "🏥",
+            title: "พบแพทย์ตัดไหม",
+            detail: "ตรวจแผลตามนัดคลินิก",
+            tag: "ครบ 7 วัน"
+          });
+        }
+        if (["s1", "s2", "s3", "s4"].includes(stageId)) {
+          list.push({
+            id: "no_sleep",
+            icon: "🛏️",
+            title: "นอนหัวสูง 30°",
+            detail: "ใช้หมอนรองคอ ห้ามนอนตะแคง",
+            tag: "7–14 วัน"
+          });
+        }
+        if (["s4", "s5", "s6"].includes(stageId)) {
+          list.push({
+            id: "no_sun",
+            icon: "☀️",
+            title: "ทากันแดด SPF 30",
+            detail: "ป้องกันผิวคล้ำบริเวณจมูกเมื่อออกแดด",
+            tag: "หลังตัดไหม"
+          });
+        }
+        if (stageId === "s6") {
+          list.push({
+            id: "no_long",
+            icon: "✨",
+            title: "รัดแกนเข้าที่สมบูรณ์",
+            detail: "ระวังแรงกระแทกจนครบ 6 เดือน",
+            tag: "3–6 เดือน"
+          });
+        }
+      }
+
+      if (proc === "eye") {
+        if (["s1", "s2", "s3", "s4", "s5"].includes(stageId)) {
+          list.push({
+            id: "eye_clean",
+            icon: "🧼",
+            title: "เช็ดแผลเช้า-เย็น",
+            detail: "น้ำเกลือเช็ดสะอาด ซับแห้ง ทา Terramycin",
+            tag: "ทุกวัน"
+          });
+        }
+        if (stageId === "s1") {
+          list.push({
+            id: "eye_cold",
+            icon: "❄️",
+            title: "ประคบเย็นรอบตา",
+            detail: "72 ชม.แรก (ประคบอุ่นต้องรอแพทย์อนุญาต)",
+            tag: "0–3 วัน"
+          });
+        } else if (stageId === "s2") {
+          list.push({
+            id: "eye_warm_note",
+            icon: "♨️",
+            title: "ประคบอุ่นรอแพทย์สั่ง",
+            detail: "หลัง 72 ชม. ต้องให้แพทย์อนุญาตก่อน",
+            tag: "หลัง 72 ชม."
+          });
+        }
+        if (["s1", "s2", "s3", "s4"].includes(stageId)) {
+          list.push({
+            id: "eye_sleep",
+            icon: "🛏️",
+            title: "นอนหัวสูง 30°",
+            detail: "ใช้หมอนรองคอ ห้ามนอนตะแคง",
+            tag: "7–14 วัน"
+          });
+        }
+        if (["s2", "s3"].includes(stageId)) {
+          list.push({
+            id: "eye_stitch",
+            icon: "🏥",
+            title: "พบแพทย์ตัดไหม",
+            detail: "ตรวจแผลตามนัดคลินิก",
+            tag: "ครบ 7 วัน"
+          });
+        }
+        if (["s5", "s6"].includes(stageId)) {
+          list.push({
+            id: "eye_heal",
+            icon: "👁️",
+            title: "ถนอมผิวรอบดวงตา",
+            detail: "เลี่ยงขยี้ตาแรง ชั้นตาเข้าที่ธรรมชาติ",
+            tag: "ระยะเข้าที่"
+          });
+        }
+      }
+
+      return list;
+    }
+
+    function getDontsList(proc) {
+      if (proc === "nose_close") {
+        return [
+          { icon: "💧", title: "ห้ามถูฟอก/แผลเปียก", badge: "งด 1 เดือน", sub: "ซับแห้งทันทีที่โดนน้ำ", days: 30 },
+          { icon: "🍺", title: "งดแอลกอฮอล์", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+          { icon: "🚬", title: "งดสูบบุหรี่", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+          { icon: "🦐", title: "งดทะเล/หมักดอง/ดิบ", badge: "งด 1 เดือน", sub: "งดอาหารแสลงทุกชนิด", days: 30 },
+          { icon: "🌿", title: "งดวิตามิน/สมุนไพร", badge: "งด 1 เดือน", sub: "ใบบัวบก/อาหารเสริม", days: 30 },
+          { icon: "🏊", title: "งดซาวน่า/ว่ายน้ำ", badge: "งด 1 เดือน", sub: "งดออกกำลังกายหนัก", days: 30 },
+          { icon: "👓", title: "ห้ามใส่แว่นกดจมูก", badge: "งด 2 อาทิตย์", sub: "อย่างน้อย 2 สัปดาห์", days: 14 },
+          { icon: "🤧", title: "ห้ามสั่งน้ำมูก/จามแรง", badge: "ห้าม 3 เดือน", sub: "กระทบโพรงจมูก", days: 90 },
+          { icon: "👆", title: "ห้ามจับ/โยก/บิดจมูก", badge: "ห้าม 6 เดือน", sub: "ป้องกันซิลิโคนเคลื่อน", days: 180 }
+        ];
+      }
+
+      if (proc === "nose_open") {
+        return [
+          { icon: "💧", title: "ห้ามถูฟอก/ขัดแผล", badge: "จนตัดไหม 7 วัน", sub: "ซับให้แห้งทุกครั้ง", days: 7 },
+          { icon: "💨", title: "งดยาหยอด/พ่นจมูก", badge: "งด 2 อาทิตย์", sub: "งดพ่นลดคัดจมูก", days: 14 },
+          { icon: "🍺", title: "งดแอลกอฮอล์", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+          { icon: "🚬", title: "งดสูบบุหรี่", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+          { icon: "🦐", title: "งดทะเล/หมักดอง/ดิบ", badge: "งด 1 เดือน", sub: "ลดโซเดียมยุบบวมไว", days: 30 },
+          { icon: "🏊", title: "งดซาวน่า/ว่ายน้ำ", badge: "งด 1 เดือน", sub: "งดออกกำลังกายหนัก", days: 30 },
+          { icon: "🕶️", title: "ห้ามใส่แว่นกดจมูก", badge: "งด 4 อาทิตย์", sub: "ใช้เทปแปะหน้าผากแทน", days: 28 },
+          { icon: "🤧", title: "ห้ามสั่งน้ำมูก/จามแรง", badge: "ห้าม 3 เดือน", sub: "กระทบโครงสร้างจมูก", days: 90 },
+          { icon: "👆", title: "ห้ามจับ/โยก/บิดจมูก", badge: "ห้าม 6 เดือน", sub: "รอรัดแกนสมบูรณ์", days: 180 }
+        ];
+      }
+
+      // ศัลยกรรมตา
+      return [
+        { icon: "💧", title: "ห้ามแผลโดนน้ำ", badge: "จนตัดไหม 7 วัน", sub: "รอพบแพทย์ตัดไหม", days: 7 },
+        { icon: "🍺", title: "งดแอลกอฮอล์", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+        { icon: "🚬", title: "งดสูบบุหรี่", badge: "งด 1 เดือน", sub: "ช่วง 2 อาทิตย์–1 เดือน", days: 30 },
+        { icon: "🌶️", title: "งดทะเล/เผ็ด/เค็ม/ดอง", badge: "งด 1 เดือน", sub: "ของดิบและอาหารแสลง", days: 30 },
+        { icon: "🌿", title: "งดวิตามิน/สมุนไพร", badge: "งด 1 เดือน", sub: "ใบบัวบก/อาหารเสริม", days: 30 },
+        { icon: "🏊", title: "งดซาวน่า/ว่ายน้ำ", badge: "งด 1 เดือน", sub: "งดออกกำลังกายหนัก", days: 30 }
+      ];
+    }
+
+    // -----------------------------------------------------------------------
+    // 3. STATE MANAGEMENT & LOCALSTORAGE
+    // -----------------------------------------------------------------------
+    let state = {
+      procedure: "nose_close",
+      hasEar: false,
+      hasCoccyx: false,
+      surgeryDate: "",
+      actualDays: 0,
+      actualStageId: "s1",
+      viewingStageId: "s1",
+      isSetupOpen: true
+    };
+
+    function toYMD(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function getDaysAgoYMD(daysAgo) {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      d.setDate(d.getDate() - daysAgo);
+      return toYMD(d);
+    }
+
+    function parseLocalDate(ymd) {
+      const [y, m, d] = ymd.split("-").map(Number);
+      const dt = new Date(y, m - 1, d);
+      dt.setHours(0, 0, 0, 0);
+      return dt;
+    }
+
+    function formatShortThaiDate(ymd) {
+      if (!ymd) return "-";
+      const months = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+      const [y, m, d] = ymd.split("-").map(Number);
+      const shortYear = String(y + 543).slice(-2);
+      return `${d} ${months[m - 1]} ${shortYear}`;
+    }
+
+    function addDaysToYMD(ymd, addDays) {
+      const dt = parseLocalDate(ymd);
+      dt.setDate(dt.getDate() + addDays);
+      return formatShortThaiDate(toYMD(dt));
+    }
+
+    function computeDiffDays(ymd) {
+      if (!ymd) return 0;
+      const surgery = parseLocalDate(ymd);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return Math.floor((today - surgery) / (1000 * 60 * 60 * 24));
+    }
+
+    function mapDaysToStageId(days) {
+      if (days <= 3) return "s1";
+      if (days <= 5) return "s2";
+      if (days <= 7) return "s3";
+      if (days <= 14) return "s4";
+      if (days <= 30) return "s5";
+      return "s6";
+    }
+
+    function saveSettings() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          procedure: state.procedure,
+          hasEar: state.hasEar,
+          hasCoccyx: state.hasCoccyx,
+          surgeryDate: state.surgeryDate
+        }));
+      } catch (e) {
+        console.warn("Storage unavailable", e);
       }
     }
 
-    /**
-     * คืนค่าไอคอนเวกเตอร์ (Inline SVG) ประจำแต่ละช่วงเวลา
-     */
-    function getStageIcon(type) {
-      const icons = {
-        daily: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`,
-        "24hr": `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg>`,
-        compress: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/></svg>`,
-        cartilage: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>`,
-        day7: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg>`,
-        sleep: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>`,
-        lifestyle: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636l12.728 12.728"/></svg>`,
-        longterm: `<svg class="w-5 h-5 text-champagne-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`
-      };
-      return icons[type] || icons.daily;
+    function loadSettings() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed.procedure && PROC_META[parsed.procedure]) {
+            state.procedure = parsed.procedure;
+          }
+          state.hasEar = Boolean(parsed.hasEar);
+          state.hasCoccyx = Boolean(parsed.hasCoccyx);
+          if (parsed.surgeryDate) {
+            state.surgeryDate = parsed.surgeryDate;
+            state.isSetupOpen = false; // มีข้อมูลบันทึกไว้แล้ว พับเก็บอัตโนมัติให้ดูสถานะทันที
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn("Storage read error", e);
+      }
+      // หากยังไม่เคยบันทึกวันที่ ให้เปิดแผงตั้งค่าไว้เป็นค่าเริ่มต้น
+      state.surgeryDate = getDaysAgoYMD(0);
+      state.isSetupOpen = true;
     }
 
-    let activeFilter = "all";
+    // -----------------------------------------------------------------------
+    // 4. INTERACTION HANDLERS
+    // -----------------------------------------------------------------------
+    function toggleSetupPanel() {
+      state.isSetupOpen = !state.isSetupOpen;
+      renderSetupPanelVisibility();
+    }
 
-    /**
-     * เปลี่ยนตัวกรองหัตถการและอัปเดตการแสดงผล
-     */
-    function setFilter(filterKey) {
-      activeFilter = filterKey;
+    function closeSetupPanel() {
+      state.isSetupOpen = false;
+      renderSetupPanelVisibility();
+    }
 
-      // อัปเดตสถานะปุ่ม Filter
-      const buttons = document.querySelectorAll(".filter-btn");
-      buttons.forEach((btn) => {
-        const isMatch = btn.getAttribute("data-filter") === filterKey;
-        if (isMatch) {
-          btn.className = "filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-navy-900 text-champagne-200 border border-navy-900 shadow-sm";
+    function renderSetupPanelVisibility() {
+      const panel = document.getElementById("setupPanel");
+      const actionLabel = document.getElementById("headerToggleAction");
+      if (state.isSetupOpen) {
+        panel.classList.remove("hidden");
+        actionLabel.textContent = "[ปิด]";
+      } else {
+        panel.classList.add("hidden");
+        actionLabel.textContent = "[เปลี่ยน]";
+      }
+    }
+
+    function selectProcedure(procKey) {
+      state.procedure = procKey;
+      if (procKey !== "nose_close") {
+        state.hasCoccyx = false;
+      }
+      if (procKey === "eye") {
+        state.hasEar = false;
+      }
+      saveSettings();
+      renderAll();
+    }
+
+    function toggleGraft(type) {
+      if (type === "ear") state.hasEar = !state.hasEar;
+      if (type === "coccyx") state.hasCoccyx = !state.hasCoccyx;
+      saveSettings();
+      renderAll();
+    }
+
+    function handleDateInput(ymd) {
+      if (!ymd) return;
+      state.surgeryDate = ymd;
+      state.actualDays = computeDiffDays(ymd);
+      state.actualStageId = mapDaysToStageId(state.actualDays);
+      state.viewingStageId = state.actualStageId;
+      saveSettings();
+      renderAll();
+    }
+
+    function applyPresetDaysAgo(daysAgo) {
+      const targetYMD = getDaysAgoYMD(daysAgo);
+      document.getElementById("surgeryDateInput").value = targetYMD;
+      handleDateInput(targetYMD);
+    }
+
+    function selectTimelineStage(stageId) {
+      state.viewingStageId = stageId;
+      renderAll();
+    }
+
+    function jumpToCurrentStage() {
+      state.viewingStageId = state.actualStageId;
+      renderAll();
+    }
+
+    // -----------------------------------------------------------------------
+    // 5. RENDERING UI
+    // -----------------------------------------------------------------------
+    function renderSetupControls() {
+      // Header compact summary pill
+      const procShort = PROC_META[state.procedure].short;
+      const dateShort = formatShortThaiDate(state.surgeryDate);
+      document.getElementById("headerSummaryPill").textContent = `${procShort} • ผ่าตัด ${dateShort}`;
+
+      // Procedure 3 visual cards
+      document.querySelectorAll(".proc-btn").forEach((btn) => {
+        const key = btn.getAttribute("data-proc");
+        if (key === state.procedure) {
+          btn.className = "proc-btn min-h-[68px] p-2 rounded-2xl border-2 border-[#D4AF37] bg-[#FBF7EE] text-[#0F172A] shadow-sm flex flex-col items-center justify-center text-center transition active:scale-95 cursor-pointer";
         } else {
-          btn.className = "filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer bg-white text-navy-800 border border-slate-300 hover:border-champagne-400";
+          btn.className = "proc-btn min-h-[68px] p-2 rounded-2xl border-2 border-white/15 bg-white/5 text-slate-300 hover:bg-white/10 flex flex-col items-center justify-center text-center transition active:scale-95 cursor-pointer";
         }
       });
 
-      // อัปเดตข้อความกำกับสำหรับการพิมพ์ PDF
-      const labelMap = {
-        all: "ทั้งหมด (ทุกหัตถการ)",
-        nose_close: "ศัลยกรรมจมูก Close / Semi-open",
-        nose_open: "ศัลยกรรมจมูก Open Rhinoplasty",
-        eye: "ศัลยกรรมตา"
-      };
-      const printLabelEl = document.getElementById("printFilterLabel");
-      if (printLabelEl) {
-        printLabelEl.textContent = labelMap[filterKey] || labelMap.all;
-      }
+      // Graft chips visibility & state
+      const graftWrapper = document.getElementById("graftChipsWrapper");
+      const chipEar = document.getElementById("chipEar");
+      const chipCoccyx = document.getElementById("chipCoccyx");
 
-      renderTimeline();
+      if (state.procedure === "nose_close" || state.procedure === "nose_open") {
+        graftWrapper.classList.remove("hidden");
+
+        chipEar.className = state.hasEar
+          ? "min-h-[38px] px-3 py-1.5 rounded-xl border-2 border-[#D4AF37] bg-[#D4AF37] text-[#0F172A] text-xs font-heading font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+          : "min-h-[38px] px-3 py-1.5 rounded-xl border border-white/20 bg-white/5 text-slate-300 text-xs font-heading font-medium flex items-center gap-1.5 transition active:scale-95 cursor-pointer";
+        chipEar.innerHTML = `<span>${state.hasEar ? "✓ กระดูกอ่อนหลังหู" : "+ กระดูกอ่อนหลังหู"}</span>`;
+
+        if (state.procedure === "nose_close") {
+          chipCoccyx.classList.remove("hidden");
+          chipCoccyx.className = state.hasCoccyx
+            ? "min-h-[38px] px-3 py-1.5 rounded-xl border-2 border-[#D4AF37] bg-[#D4AF37] text-[#0F172A] text-xs font-heading font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+            : "min-h-[38px] px-3 py-1.5 rounded-xl border border-white/20 bg-white/5 text-slate-300 text-xs font-heading font-medium flex items-center gap-1.5 transition active:scale-95 cursor-pointer";
+          chipCoccyx.innerHTML = `<span>${state.hasCoccyx ? "✓ เนื้อเยื่อก้นกบ" : "+ เนื้อเยื่อก้นกบ"}</span>`;
+        } else {
+          chipCoccyx.classList.add("hidden");
+        }
+      } else {
+        graftWrapper.classList.add("hidden");
+      }
     }
 
-    /**
-     * สร้าง HTML ของการ์ดไทม์ไลน์ตามตัวกรองที่เลือก
-     */
-    function renderTimeline() {
-      const container = document.getElementById("timelineContainer");
-      if (!container) return;
+    function calculateMilestoneText() {
+      const d = state.actualDays;
+      const ymd = state.surgeryDate;
+      const isNose = state.procedure === "nose_close" || state.procedure === "nose_open";
 
-      container.innerHTML = "";
+      if (d < 0) {
+        return `📅 วันผ่าตัดของคุณ: ${formatShortThaiDate(ymd)}`;
+      }
+      if (d < 3) {
+        return `❄️ ครบ 72 ชม.ประคบเย็น: ${addDaysToYMD(ymd, 3)}`;
+      }
+      if (state.hasEar && d === 3) {
+        return `🚿 วันนี้ครบ 3 วัน: สระผมได้ (ใช้ที่ครอบหู)`;
+      }
+      if (state.hasCoccyx && d < 5) {
+        return `🩹 ครบ 5 วันทำแผลก้นกบ: ${addDaysToYMD(ymd, 5)}`;
+      }
+      if (d < 7) {
+        return `🗓️ นัดตัดไหม (ครบ 7 วัน): ${addDaysToYMD(ymd, 7)}`;
+      }
+      if (d === 7) {
+        return `🏥 วันนี้ครบ 7 วัน: พบแพทย์ตัดไหมตามนัด`;
+      }
+      if (d < 14) {
+        return `🛏️ ครบ 14 วันนอนหัวสูง: ${addDaysToYMD(ymd, 14)}`;
+      }
+      if (d < 30) {
+        return `🥗 ครบ 1 เดือนงดของแสลง: ${addDaysToYMD(ymd, 30)}`;
+      }
+      if (isNose && d < 90) {
+        return `🤧 ครบ 3 เดือนห้ามสั่งน้ำมูก: ${addDaysToYMD(ymd, 90)}`;
+      }
+      if (isNose && d < 180) {
+        return `👃 ครบ 6 เดือนรัดแกนเต็มที่: ${addDaysToYMD(ymd, 180)}`;
+      }
+      return `✨ ครบกำหนดดูแลระยะยาวแล้ว`;
+    }
 
-      timelineData.forEach((node) => {
-        // กรองเฉพาะรายการที่ตรงกับหัตถการที่เลือก
-        const filteredItems = activeFilter === "all"
-          ? node.items
-          : node.items.filter((item) => item.tags.includes(activeFilter));
+    function renderHeroAndTimeline() {
+      const d = state.actualDays;
+      const dayTitle = d >= 0 ? `Day ${d} หลังผ่าตัด` : `อีก ${Math.abs(d)} วัน ผ่าตัด`;
+      document.getElementById("heroDayCounter").textContent = dayTitle;
 
-        // หากช่วงเวลานี้ไม่มีข้อปฏิบัติสำหรับหัตถการที่เลือก ให้ซ่อนช่วงเวลานั้น
-        if (filteredItems.length === 0) return;
+      const viewingStage = TIMELINE_STAGES.find((s) => s.id === state.viewingStageId) || TIMELINE_STAGES[0];
+      document.getElementById("heroPhaseBadge").textContent = viewingStage.badge;
+      document.getElementById("heroMilestoneText").textContent = calculateMilestoneText();
+      document.getElementById("heroProcedureTag").textContent = PROC_META[state.procedure].short;
+      document.getElementById("viewingStageLabel").textContent = `กำลังดู: ${viewingStage.label}`;
 
-        const article = document.createElement("article");
-        article.className = "timeline-node relative pl-14 sm:pl-20";
+      // Back to Now button
+      const backBtn = document.getElementById("backToNowBtn");
+      if (state.viewingStageId !== state.actualStageId) {
+        backBtn.classList.remove("hidden");
+      } else {
+        backBtn.classList.add("hidden");
+      }
 
-        const itemsHtml = filteredItems.map((item) => {
-          const badgeClass = getTagBadgeClasses(item.tagStyle);
-          return `
-            <li class="p-4 sm:p-5 rounded-xl bg-slate-50/90 hover:bg-champagne-50/60 border border-slate-200/80 transition-colors">
-              <div class="mb-2">
-                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold ${badgeClass}">
-                  ${item.tagLabel}
-                </span>
-              </div>
-              <p class="text-navy-900 text-sm sm:text-base leading-relaxed font-normal">
-                ${item.text}
-              </p>
-            </li>
-          `;
-        }).join("");
+      // Render 6 Horizontal Timeline Pills
+      const strip = document.getElementById("timelineStrip");
+      strip.innerHTML = TIMELINE_STAGES.map((st) => {
+        const isViewing = st.id === state.viewingStageId;
+        const isNow = st.id === state.actualStageId;
 
-        article.innerHTML = `
-          <!-- เหรียญลำดับช่วงเวลาบนเส้นไทม์ไลน์ -->
-          <div class="absolute left-0 top-1 w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-navy-900 border-2 border-champagne-400 shadow-md flex flex-col items-center justify-center z-10">
-            <span class="text-[10px] uppercase tracking-wider text-champagne-300 leading-none">STEP</span>
-            <span class="text-sm sm:text-base font-bold text-white leading-tight mt-0.5">${node.step}</span>
-          </div>
+        const baseClasses = "shrink-0 min-h-[54px] px-3.5 py-2 rounded-2xl border-2 text-left transition active:scale-95 cursor-pointer relative flex flex-col justify-center";
+        const stateClasses = isViewing
+          ? "bg-[#0F172A] border-[#D4AF37] text-white shadow-md"
+          : isNow
+            ? "bg-[#FBF7EE] border-[#B48A3E] text-[#0F172A]"
+            : "bg-white border-slate-200 text-slate-600 hover:border-slate-300";
 
-          <!-- การ์ดเนื้อหาประจำช่วงเวลา -->
-          <div class="timeline-card bg-white rounded-2xl border border-champagne-200/90 shadow-[0_6px_24px_rgba(14,31,56,0.06)] overflow-hidden">
-            <!-- ส่วนหัวของการ์ด -->
-            <div class="bg-gradient-to-r from-champagne-100/80 via-champagne-50 to-white px-5 py-4 border-b border-champagne-200/80 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-white border border-champagne-300 flex items-center justify-center shrink-0 shadow-xs">
-                  ${getStageIcon(node.iconType)}
-                </div>
-                <h2 class="text-base sm:text-lg font-bold text-navy-900 leading-snug">
-                  ${node.period}
-                </h2>
-              </div>
-              <span class="self-start sm:self-auto px-3 py-1 rounded-lg bg-navy-900 text-champagne-200 text-xs font-semibold shrink-0">
-                ${node.badgeText}
-              </span>
+        const nowDot = isNow
+          ? `<span class="inline-flex items-center gap-1 text-[10px] font-heading font-bold ${isViewing ? "text-[#D4AF37]" : "text-[#B48A3E]"}">
+               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>ตอนนี้
+             </span>`
+          : `<span class="text-[10px] ${isViewing ? "text-slate-300" : "text-slate-400"}">${st.sub}</span>`;
+
+        return `
+          <button type="button" onclick="selectTimelineStage('${st.id}')" class="${baseClasses} ${stateClasses}">
+            <span class="font-heading font-bold text-xs leading-tight">${st.label}</span>
+            ${nowDot}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderDosChecklist() {
+      const items = buildDosList(state.procedure, state.viewingStageId, state.hasEar, state.hasCoccyx);
+      const container = document.getElementById("dosContainer");
+
+      const todayKey = `tk_checks_${toYMD(new Date())}_${state.procedure}_${state.viewingStageId}`;
+      let checkedMap = {};
+      try {
+        checkedMap = JSON.parse(localStorage.getItem(todayKey) || "{}");
+      } catch (e) {
+        checkedMap = {};
+      }
+
+      let doneCount = 0;
+      container.innerHTML = items.map((item) => {
+        const isChecked = Boolean(checkedMap[item.id]);
+        if (isChecked) doneCount++;
+
+        return `
+          <div onclick="toggleCareCheck('${todayKey}', '${item.id}')"
+               class="min-h-[64px] p-3 rounded-2xl border transition active:scale-[0.99] cursor-pointer flex items-center gap-3 select-none ${
+                 isChecked
+                   ? "bg-emerald-50/70 border-emerald-200 opacity-75"
+                   : "bg-white border-slate-200/90 hover:border-emerald-300 shadow-2xs"
+               }">
+            <!-- Custom Checkbox -->
+            <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 transition ${
+              isChecked
+                ? "bg-emerald-600 border-emerald-600 text-white"
+                : "border-slate-300 bg-slate-50"
+            }">
+              ${isChecked ? '<span class="text-xs font-bold">✓</span>' : ""}
             </div>
 
-            <!-- รายการข้อปฏิบัติ -->
-            <ul class="p-4 sm:p-6 space-y-3.5">
-              ${itemsHtml}
-            </ul>
+            <!-- Big Emoji Icon -->
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-xl shrink-0">
+              ${item.icon}
+            </div>
+
+            <!-- Bold Headline + 1-line micro-detail -->
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-1.5">
+                <h3 class="font-heading font-bold text-xs sm:text-sm text-[#0F172A] truncate ${isChecked ? "line-through text-slate-500" : ""}">
+                  ${item.title}
+                </h3>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-100/80 text-emerald-800 font-heading font-semibold text-[10px] shrink-0">
+                  ${item.tag}
+                </span>
+              </div>
+              <p class="text-xs text-slate-600 truncate mt-0.5">
+                ${item.detail}
+              </p>
+            </div>
           </div>
         `;
+      }).join("");
 
-        container.appendChild(article);
+      const total = items.length;
+      const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+      document.getElementById("checklistCounterText").textContent = `ทำแล้ว ${doneCount}/${total}`;
+      document.getElementById("checklistProgressFill").style.width = `${pct}%`;
+    }
+
+    function toggleCareCheck(storageKey, itemId) {
+      let checkedMap = {};
+      try {
+        checkedMap = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      } catch (e) {
+        checkedMap = {};
+      }
+      checkedMap[itemId] = !checkedMap[itemId];
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(checkedMap));
+      } catch (e) {
+        console.warn(e);
+      }
+      renderDosChecklist();
+    }
+
+    function renderDontsGrid() {
+      const items = getDontsList(state.procedure);
+      const grid = document.getElementById("dontsGrid");
+      const currentDays = Math.max(0, state.actualDays);
+
+      grid.innerHTML = items.map((item) => {
+        const remaining = Math.max(0, item.days - currentDays);
+        const isDone = remaining === 0;
+
+        const statusBadge = isDone
+          ? `<span class="inline-block w-full text-center py-1 px-2 rounded-lg bg-emerald-100 text-emerald-700 font-heading font-bold text-[11px]">
+               ✅ ครบกำหนดแล้ว
+             </span>`
+          : `<span class="inline-block w-full text-center py-1 px-2 rounded-lg bg-rose-100 text-rose-700 font-heading font-bold text-[11px]">
+               ⏳ เหลือ ${remaining} วัน
+             </span>`;
+
+        return `
+          <div class="p-3 rounded-2xl border flex flex-col justify-between gap-2 ${
+            isDone
+              ? "bg-slate-50/80 border-slate-200/80"
+              : "bg-white border-rose-200/80 shadow-2xs"
+          }">
+            <div>
+              <div class="flex items-start justify-between gap-1 mb-1.5">
+                <span class="text-2xl leading-none">${item.icon}</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-heading font-semibold text-[10px]">
+                  ${item.badge}
+                </span>
+              </div>
+              <h3 class="font-heading font-bold text-xs text-[#0F172A] leading-snug">
+                ${item.title}
+              </h3>
+              <p class="text-[11px] text-slate-500 leading-tight mt-0.5">
+                ${item.sub}
+              </p>
+            </div>
+
+            <div class="pt-1">
+              ${statusBadge}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderAll() {
+      renderSetupPanelVisibility();
+      renderSetupControls();
+      renderHeroAndTimeline();
+      renderDosChecklist();
+      renderDontsGrid();
+    }
+
+    // -----------------------------------------------------------------------
+    // 6. EMERGENCY BOTTOM SHEET & LINE CLIPBOARD COPY
+    // -----------------------------------------------------------------------
+    function openEmergencySheet() {
+      const modal = document.getElementById("emergencyModal");
+      const backdrop = document.getElementById("emergencyBackdrop");
+      const panel = document.getElementById("emergencySheetPanel");
+
+      modal.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        backdrop.classList.remove("opacity-0");
+        backdrop.classList.add("opacity-100");
+        panel.classList.remove("translate-y-full");
+        panel.classList.add("translate-y-0");
       });
     }
 
-    // เริ่มต้นแสดงผลไทม์ไลน์เมื่อโหลดหน้าเว็บ
+    function closeEmergencySheet() {
+      const modal = document.getElementById("emergencyModal");
+      const backdrop = document.getElementById("emergencyBackdrop");
+      const panel = document.getElementById("emergencySheetPanel");
+
+      backdrop.classList.remove("opacity-100");
+      backdrop.classList.add("opacity-0");
+      panel.classList.remove("translate-y-0");
+      panel.classList.add("translate-y-full");
+
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 260);
+    }
+
+    function copyStatusForLine() {
+      const procFull = PROC_META[state.procedure].full;
+      const grafts = [];
+      if (state.hasEar) grafts.push("กระดูกอ่อนหลังหู");
+      if (state.hasCoccyx) grafts.push("เนื้อเยื่อก้นกบ");
+      const graftText = grafts.length ? ` (+ ${grafts.join(", ")})` : "";
+      const dayLabel = state.actualDays >= 0 ? `Day ${state.actualDays}` : `นัดผ่าตัดในอีก ${Math.abs(state.actualDays)} วัน`;
+
+      const message = [
+        "📋 แจ้งติดตามอาการหลังผ่าตัด (THE KLINIQUE)",
+        `• หัตถการ: ${procFull}${graftText}`,
+        `• วันที่ผ่าตัด: ${formatShortThaiDate(state.surgeryDate)}`,
+        `• ระยะเวลา: ${dayLabel}`,
+        "ขอสอบถาม/ส่งรูปอัปเดตอาการกับเจ้าหน้าที่ After Care ค่ะ"
+      ].join("\n");
+
+      const textarea = document.createElement("textarea");
+      textarea.value = message;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      let success = false;
+      try {
+        success = document.execCommand("copy");
+      } catch (e) {
+        success = false;
+      }
+      document.body.removeChild(textarea);
+
+      showToast(success ? "✅ คัดลอกแล้ว! กดวาง (Paste) ส่งในแชท LINE ได้เลย" : "ไม่สามารถคัดลอกได้ กรุณาลองอีกครั้ง");
+    }
+
+    let toastTimeout = null;
+    function showToast(text) {
+      const toast = document.getElementById("toastBanner");
+      toast.textContent = text;
+      toast.classList.remove("opacity-0");
+      toast.classList.add("opacity-100");
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0");
+      }, 3000);
+    }
+
+    // -----------------------------------------------------------------------
+    // 7. INITIALIZE APP
+    // -----------------------------------------------------------------------
     document.addEventListener("DOMContentLoaded", () => {
-      renderTimeline();
+      loadSettings();
+      document.getElementById("surgeryDateInput").value = state.surgeryDate;
+      state.actualDays = computeDiffDays(state.surgeryDate);
+      state.actualStageId = mapDaysToStageId(state.actualDays);
+      state.viewingStageId = state.actualStageId;
+      renderAll();
     });
   </script>
 </body>
